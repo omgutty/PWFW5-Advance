@@ -31,19 +31,19 @@ export class LoginPage{
     // No method in a Page Object should contain if/else business logic.
     // Business logic belongs in Modules.
 
-    async navigation():Promise<void>{
+    async navigate():Promise<void>{
         await this.page.goto('/')
     }
 
-    async enterusername(username:string):Promise<void>{
+    async enterUsername(username:string):Promise<void>{
         await this.username().fill(username);
     }
 
-    async enterpassword(password:string):Promise<void>{
+    async enterPassword(password:string):Promise<void>{
         await this.passwordInput().fill(password);
     }
 
-    async clickonlogin():Promise<void>{
+    async clickonLogin():Promise<void>{
         await this.loginButton().click();
     }
 
