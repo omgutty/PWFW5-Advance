@@ -1,0 +1,106 @@
+-- tsconfig.json 
+"strict": true — enables ALL strict checks. This catches null access, implicit any, and more at compile time. Non-negotiable in enterprise TypeScript.
+"resolveJsonModule": true — allows import data from './testdata/users.json'. Without this the JSON imports in the framework would fail.
+"esModuleInterop": true — allows import * as dotenv from 'dotenv' syntax to work correctly with CommonJS modules.
+"target": "ES2020" — allows async/await, Promise, optional chaining without transpilation overhead.
+-------------------------
+
+config\index.ts
+You currently have TWO different responsibilities separated.
+
+1. src/config/index.ts
+
+This file is:
+
+Application Configuration Layer
+
+It manages:
+
+environment variables
+typed config
+URLs
+credentials
+API settings
+reusable runtime settings
+
+Think of it as:
+
+Central configuration service
+2. playwright.config.ts
+
+This file is:
+
+Playwright Runner Configuration
+
+It manages:
+
+test execution
+browser settings
+retries
+workers
+reporters
+screenshots
+tracing
+Playwright runtime behavior
+
+Think of it as:
+
+Playwright engine setup
+Most Important Architectural Difference
+
+Without separation:
+
+playwright.config.ts
+↓
+contains EVERYTHING
+
+With separation:
+
+src/config/index.ts
+↓
+central app config
+
+playwright.config.ts
+↓
+consumes app config
+
+This creates:
+
+Single Source of Truth
+
+VERY important architecture principle
+--------------------------------------------------
+
+.git ignore 
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Test results
+test-results/
+playwright-report/
+playwright/.cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Coverage
+coverage/
+

@@ -1,0 +1,527 @@
+Advanced Playwright Framework — Complete Mentoring Session
+PHASE 1 — FULL PROJECT ANALYSIS
+
+1.1 — Framework Architecture Overview
+This framework is a 3-Layer Enterprise Test Automation Framework built on Playwright + TypeScript. Before diving into folders, understand the mental model:
+┌─────────────────────────────────────────────────────────────────┐
+│                        TEST LAYER                               │
+│           src/tests/*.spec.ts  (What to test)                  │
+├─────────────────────────────────────────────────────────────────┤
+│                       MODULE LAYER                              │
+│         src/modules/*.ts  (Business workflows)                  │
+│           "doLogin()" = navigate + fill + click + assert       │
+├─────────────────────────────────────────────────────────────────┤
+│                        PAGE LAYER                               │
+│          src/pages/*.ts  (Low-level UI actions)                │
+│         "clickLogin()" = find button + click it                │
+├─────────────────────────────────────────────────────────────────┤
+│                    INFRASTRUCTURE LAYER                         │
+│   fixtures | config | utils | api | testdata | reporters       │
+└─────────────────────────────────────────────────────────────────┘
+Tech Stack:
+
+@playwright/test ^1.57.0 — Test runner + browser automation + API client
+TypeScript ^5.9.3 — Strict typing, interfaces, generics
+dotenv ^17.2.3 — Environment variable management
+@types/node ^25.0.6 — Node.js type definitions
+ESLint + Prettier — Code quality enforcement
+Husky + lint-staged — Git hook quality gates
+commitlint — Conventional commit enforcement
+Docker + docker-compose — Containerized execution
+GitHub Actions — CI/CD with 4-way sharding
+
+Key Design Decisions:
+
+No test runner separation — Playwright handles everything (no Jest, no Mocha)
+No Selenium-style WebDriverIO or Cypress — pure Playwright
+Custom HTML reporter instead of relying solely on Playwright's built-in
+Dual application targets: a main e-commerce app + Katalon demo app (Cura Healthcare)
+
+1.2 — Folder-by-Folder Deep Analysis
+Advance-Playwright-Framework-main/
+│
+├── src/                        ← All source code lives here
+│   ├── api/                    ← API client layer
+│   ├── config/                 ← Environment configuration
+│   ├── fixtures/               ← Playwright fixture injection
+│   ├── modules/                ← Business workflow orchestration
+│   ├── pages/                  ← Page Object Model
+│   ├── testdata/               ← JSON test data + TypeScript types
+│   ├── tests/                  ← Actual test specifications
+│   └── utils/                  ← Shared utilities (Logger, ApiHelper, Reporter)
+│
+├── scripts/                    ← Custom Node.js rule engine
+├── rules/                      ← Framework rule definitions (JSON)
+├── docs/                       ← Architecture docs, AI agent docs
+├── skills/                     ← AI MCP tutor skills
+├── .github/workflows/          ← GitHub Actions CI/CD
+├── playwright.config.ts        ← Master Playwright configuration
+├── package.json                ← npm scripts + dependencies
+├── .env                        ← Local environment variables
+├── Dockerfile + docker-compose ← Container support
+└── Jenkinsfile                 ← Jenkins CI integration
+
+Why each folder exists:
+src/pages/ — The Page Object Model layer. Each file represents ONE application page. Its only job is: "here are the locators and the raw actions you can perform on this page." It has NO business logic. This is the Single Responsibility Principle applied to test automation.
+src/modules/ — This is the architectural differentiator most frameworks lack. Modules are business workflow orchestrators. They compose multiple page actions into meaningful user journeys. LoginModule.doLogin() calls loginPage.navigate() → enterUsername() → enterPassword() → clickLogin() → waitForURL(). This creates a clean separation: pages know HOW to interact with UI; modules know WHAT the business flow IS.
+src/fixtures/ — Playwright's dependency injection mechanism. Instead of instantiating pages in every test, fixtures provide pre-constructed objects automatically. This eliminates boilerplate and makes tests declarative.
+src/api/ — A complete API client layer. This enables UI-API hybrid testing: set up state via API (fast), then validate UI (accurate). Enterprise teams use this to skip slow UI setup steps.
+src/config/ — Centralized configuration with TypeScript interfaces. Environment-aware: resolves different URLs for dev/staging/prod. This is the Single Source of Truth for all configuration.
+src/testdata/ — JSON files for data + TypeScript types.ts for type safety. The JSON holds the actual data values; the types enforce structure. This separation means: data team can edit JSON without touching TypeScript; engineers get compile-time safety.
+src/utils/ — Cross-cutting concerns. Logger, ApiHelper, WaitHelper, DataGenerator, and the custom reporter. These are shared infrastructure utilities that don't belong to any single test domain
+
+
+1.3 — File-by-File Analysis: The Critical Files
+
+playwright.config.ts — The Master Control File
+typescriptimport { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
+
+dotenv.config(); // ← Load .env BEFORE config object is evaluated
+
+export default defineConfig({
+    testDir: './src/tests',      // Where Playwright looks for *.spec.ts
+    timeout: 60000,              // Per-test timeout: 60 seconds
+    expect: { timeout: 10000 }, // Per-assertion timeout: 10 seconds
+    fullyParallel: true,         // Tests within a FILE run in parallel
+    forbidOnly: !!process.env.CI, // Fails build if test.only() is committed
+    retries: process.env.CI ? 2 : 0, // 2 retries in CI, 0 locally
+    workers: process.env.CI ? 2 : 3, // Parallel worker count
+Critical insight: dotenv.config() is called at the TOP LEVEL of the config file, BEFORE the defineConfig() call. This ensures process.env.BASE_URL is already populated when Playwright reads use.baseURL. Many engineers get this wrong and wonder why their env vars aren't loading.
+typescript    reporter: [
+        ['./src/utils/CustomTTAReporter.ts'], // Custom HTML reporter
+        ['html', { open: 'never' }],          // Playwright's built-in HTML
+        ['json', { outputFile: 'test-results/results.json' }], // Machine-readable
+        ['list'],                              // Console output during run
+    ],
+Multiple reporters pattern — This is enterprise-grade. You get:
+
+Custom TTA reporter for the team's branded HTML report
+Playwright's HTML for interactive debugging (trace, video, screenshot viewer)
+JSON for CI/CD integration (parse pass/fail counts in shell scripts)
+List for real-time console feedback
+
+typescript    use: {
+        baseURL: process.env.BASE_URL || 'http://localhost:3000',
+        screenshot: 'only-on-failure',  // Don't bloat storage on every pass
+        video: 'retain-on-failure',     // Video only when it matters
+        trace: 'retain-on-failure',     // Trace only when it matters
+    },
+
+    projects: [
+        { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+        { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+        { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+        { name: 'mobile-chrome', use: { ...devices['Pixel 5'] } },
+    ],
+projects is Playwright's multi-browser/multi-config system. Each project can override ANY use setting. You could add a mobile-safari project, or a project with storageState pre-loaded for authenticated tests. This is far more flexible than running --browser flags.
+...devices['Desktop Chrome'] — The spread operator merges Playwright's device presets (user agent, viewport, hasTouch, etc.) into the project config. This is why your tests accurately simulate real devices.
+
+src/config/index.ts — Configuration Architecture
+typescriptexport interface AppConfig {
+    baseUrl: string;
+    apiBaseUrl: string;
+    apiTimeout: number;
+    testUser: TestUser;
+    logLevel: string;
+    retryCount: number;
+    defaultTimeout: number;
+}
+Why TypeScript interfaces here instead of just a plain object? Because the interface becomes a contract. Any code that consumes config gets IntelliSense autocompletion and TypeScript will error at compile time if you try to access config.nonExistentProp. In large teams this prevents entire categories of bugs.
+typescriptexport function getEnvironmentConfig(env?: string): Partial<AppConfig> {
+    const environment = env || process.env.NODE_ENV || 'development';
+    switch (environment) {
+        case 'production': return { baseUrl: process.env.PROD_BASE_URL || '...' };
+        case 'staging':    return { ... };
+        default:           return { ... };
+    }
+}
+Partial<AppConfig> — This is a TypeScript utility type. It makes all properties of AppConfig optional. The function returns a partial override, not a full config. The consuming code merges it: { ...defaultConfig, ...getEnvironmentConfig() }. This is the Strategy Pattern for environment configuration.
+Architect Note — What's Missing: There's no config merging call connecting getEnvironmentConfig() to the main config object. The function exists but isn't used in the config export. This is a gap — in a real enterprise setup, you'd do:
+typescriptexport const config: AppConfig = {
+    ...defaultConfig,
+    ...getEnvironmentConfig(process.env.NODE_ENV),
+};
+
+src/pages/LoginPage.ts — The POM Pattern Analyzed
+typescriptexport class LoginPage {
+    private page: Page; // Encapsulation: page is not accessible outside
+
+    constructor(page: Page) {
+        this.page = page; // Dependency Injection via constructor
+    }
+
+    // ── LOCATORS as arrow functions ──────────────────────────
+    usernameInput = () => this.page.locator('#username');
+Why locators are arrow functions, not properties? This is a critical design choice. If you wrote:
+typescriptusernameInput = this.page.locator('#username'); // WRONG
+The locator is evaluated ONCE at construction time. If the page navigates, the locator still points to the old DOM state. Arrow functions are lazy evaluation — the locator is recreated fresh every time you call this.usernameInput(). This prevents stale element reference errors.
+typescript    // ── ACTIONS ──────────────────────────────────────────────
+    async enterUsername(username: string): Promise<void> {
+        await this.usernameInput().fill(username);
+    }
+
+    // ── ASSERTIONS ───────────────────────────────────────────
+    async expectErrorVisible(): Promise<void> {
+        await expect(this.errorMessage()).toBeVisible();
+    }
+Three-section structure: Locators → Actions → Assertions — This is a deliberate architectural pattern. The page has three clear responsibilities:
+
+Locators: Where are the elements?
+Actions: What can I do with elements?
+Assertions: What can I verify about elements?
+
+This structure makes the class scannable. A junior engineer can find any locator instantly. An architect reviewing a PR can immediately see if business logic leaked into a Page Object (which it shouldn't).
+Promise<void> return types — Every action method explicitly declares its return type. This is TypeScript best practice. void signals "this method does something but returns no meaningful value." Compare to getErrorMessage(): Promise<string> which explicitly signals it returns data. Strong typing makes the API self-documenting.
+
+src/modules/LoginModule.ts — The Orchestration Layer
+typescriptexport class LoginModule {
+    private page: Page;
+    private loginPage: LoginPage;    // Composed, not extended
+    private homePage: HomePage;      // Composition over inheritance
+    private logger: Logger;
+
+    async doLogin(username: string, password: string): Promise<boolean> {
+        this.logger.step(1, 'Navigate to login page');
+        await this.loginPage.navigate();
+
+        this.logger.step(2, 'Enter username');
+        await this.loginPage.enterUsername(username);
+        // ... etc
+        return true;
+    }
+Composition over Inheritance — LoginModule CONTAINS LoginPage and HomePage as properties, it does NOT extend them. This is a fundamental OOP principle. If LoginModule extends LoginPage, you get LoginPage's entire API exposed on LoginModule. That's a violation of the Interface Segregation Principle — tests would have access to both "module-level" and "page-level" operations with no clear boundary.
+Logger integration at module level — The Logger is used in modules, NOT in pages. Pages are pure UI interaction. Modules are where business logic lives, so modules are where logging belongs. This is consistent with the Single Responsibility Principle.
+return true from doLogin() — This is slightly redundant (the method would be void if it throws on failure), but it provides a programmatic signal for callers that want to branch on login success. Better approach would be Promise<void> and throw an error on failure — but this is a minor design choice.
+
+src/fixtures/index.ts — Dependency Injection System
+typescriptexport const test = base.extend<TestFixtures>({
+    loginPage: async ({ page }, use) => {
+        await use(new LoginPage(page));
+    },
+    // ...
+    authenticatedPage: async ({ browser }, use) => {
+        const context = await browser.newContext();
+        const page = await context.newPage();
+        const loginPage = new LoginPage(page);
+        await loginPage.navigate();
+        await loginPage.enterUsername(config.testUser.username);
+        await loginPage.enterPassword(config.testUser.password);
+        await loginPage.clickLogin();
+        await page.waitForURL('**/home');
+        await use(page);         // ← Test runs here
+        await context.close();   // ← Cleanup runs after test
+    },
+});
+The use() pattern — This is Playwright's generator-style fixture lifecycle. Everything BEFORE use() is setup. use(value) is where the test runs. Everything AFTER use() is teardown. This is conceptually identical to beforeEach/afterEach but scoped to individual fixtures and injectable per-test.
+base.extend<TestFixtures>() — TypeScript generics here serve as the type contract. TestFixtures is an interface that defines what fixtures exist and what types they return. This means if you try to destructure { nonExistentFixture } in a test, TypeScript will error at compile time before you even run the test.
+Why authenticatedPage uses browser instead of page — The page fixture provides a page in a SHARED browser context. The authenticatedPage fixture creates its OWN context so it has isolated cookies, storage, and session state. This prevents authentication state from leaking between tests.
+
+src/fixtures/auth.fixture.ts — Advanced Auth Patterns
+typescriptexport const authenticatedTest = base.extend<{ page: Page }>({
+    page: async ({ browser }, use) => {
+        try {
+            const context = await browser.newContext({
+                storageState: '.auth/user.json', // Reuse saved session
+            });
+            const page = await context.newPage();
+            await use(page);
+            await context.close();
+        } catch {
+            // Fall back to fresh login if no stored state
+            // ...login flow...
+        }
+    },
+});
+storageState — This is Playwright's session persistence mechanism. After a UI login, you call context.storageState({ path: '.auth/user.json' }) to save cookies + localStorage. Subsequent tests load this state instantly, skipping the login flow entirely. For a test suite with 100 tests that all need authentication, this saves 100 × (average login time). In a real app with OAuth redirects, that could be 5-10 seconds per test.
+The try/catch fallback — This is resilient design. If .auth/user.json doesn't exist (first run, or after clearing), it gracefully falls back to a fresh login. Without this, every test in CI would fail on the first run.
+
+src/utils/Logger.ts — Logging Architecture
+typescriptexport enum LogLevel {
+    DEBUG = 'DEBUG',
+    INFO = 'INFO',
+    WARN = 'WARN',
+    ERROR = 'ERROR',
+}
+TypeScript enum — Enums create a named set of constants. Using LogLevel.INFO instead of the string 'INFO' provides type safety — TypeScript will error if you pass 'INFORMATIONAL' where LogLevel is expected. It also makes IDEs autocomplete available values.
+typescriptexport class Logger {
+    private static logLevel: LogLevel = LogLevel.INFO; // Static = class-level state
+
+    static create(context: string): Logger {
+        return new Logger(context); // Factory method pattern
+    }
+
+    private shouldLog(level: LogLevel): boolean {
+        const levels = [LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARN, LogLevel.ERROR];
+        return levels.indexOf(level) >= levels.indexOf(Logger.logLevel);
+    }
+private static logLevel — Static means one instance shared across ALL Logger objects. Setting Logger.setLogLevel(LogLevel.DEBUG) affects ALL loggers in the process. This is the correct approach for a global log level setting.
+static create() Factory Method — Instead of new Logger('context'), you call Logger.create('context'). The factory method pattern gives the class control over instantiation. If you later want to cache loggers by context name (to avoid duplicate instances), you can change create() without changing call sites.
+shouldLog() hierarchy check — The array [DEBUG, INFO, WARN, ERROR] creates an implicit ordering. indexOf() gives position. If logLevel = INFO (index 1), then DEBUG (index 0) fails the check (0 >= 1 is false), while WARN (index 2) passes (2 >= 1). Elegant and O(n) with small n.
+
+src/utils/ApiHelper.ts — API Client Architecture
+typescriptexport type ApiContext = Page | APIRequestContext;
+Union type — ApiContext can be EITHER a Page or an APIRequestContext. This allows ApiHelper to work in two contexts:
+
+During a UI test where you already have a page object — just use page.request
+In a standalone API test where you have a raw APIRequestContext
+
+This flexibility means API test utilities are reusable in both contexts.
+typescriptprivate getRequest(): APIRequestContext {
+    if ('request' in this.context) {
+        return this.context.request; // context is a Page
+    }
+    return this.context as APIRequestContext; // context already IS the request
+}
+Runtime type narrowing — The 'request' in this.context check is TypeScript's way of doing runtime type checking without instanceof. If the context has a request property, it must be a Page. This is called a type guard.
+typescriptasync callApiWithRetry(options, retryOptions: RetryOptions): Promise<APIResponse> {
+    const { condition, pollingInterval = 5000, retryCount = 3 } = retryOptions;
+    for (let attempt = 1; attempt <= retryCount; attempt++) {
+        lastResponse = await this.callApi(options);
+        if (await condition(lastResponse)) return lastResponse;
+        if (attempt < retryCount) await new Promise(r => setTimeout(r, pollingInterval));
+    }
+}
+Retry with polling — condition is a function (response) => boolean. The caller defines WHAT constitutes success. This is the Strategy Pattern — the retry mechanism is decoupled from the success condition. Use case: polling a background job endpoint until it returns status: 'completed'.
+
+src/utils/CustomTTAReporter.ts — Custom Reporter Architecture
+This is the most architecturally complex file in the project. It implements Playwright's Reporter interface:
+typescriptclass CustomTTAReporter implements Reporter {
+    onBegin(config, suite): void { ... }   // Test run starts
+    onTestBegin(test): void { ... }        // Each test starts
+    onStepBegin(test, result, step): void  // Each step starts
+    onStepEnd(test, result, step): void    // Each step ends
+    onTestEnd(test, result): void { ... }  // Each test ends
+    async onEnd(result): Promise<void>     // Test run ends
+}
+The Reporter interface — This is Playwright's plugin system for reporting. By implementing these lifecycle hooks, the reporter gets real-time notifications. This enables the real-time HTML report update (the report file is written to disk after EVERY test end, not just at the final onEnd).
+Real-time reporting pattern:
+typescriptprivate updateReportRealTime(): void {
+    const html = this.generateHTMLRealTime();
+    fs.writeFileSync(this.outputFile, html); // Writes to disk immediately
+}
+
+private generateHTMLRealTime(): string {
+    // Temporarily merge running tests into results for rendering
+    this.testResults = [...originalResults, ...inProgressTests];
+    let html = this.generateHTML();
+    this.testResults = originalResults; // Restore after rendering
+    // Add meta refresh tag for auto-reload
+    html = html.replace('<meta charset="UTF-8">', 
+        '<meta charset="UTF-8">\n    <meta http-equiv="refresh" content="5">');
+    return html;
+}
+The browser auto-refreshes every 5 seconds via <meta http-equiv="refresh">. This is an elegant, zero-dependency real-time reporting solution.
+Report history system:
+typescriptprivate generateHistoryPage(reportDir: string): void {
+    const files = fs.readdirSync(reportDir)
+        .filter(f => f.startsWith('report_') && f.endsWith('.html'))
+        .sort().reverse();
+    // Generates a history.html listing all past runs
+}
+Each run generates a timestamped HTML file (report_20260325_143022.html). The history.html acts as an index. This gives teams a complete audit trail of all test runs without needing an external test management tool.
+
+1.4 — API Testing Layer Analysis
+The framework has a full API testing layer structured as domain-specific API clients:
+src/api/
+├── AuthApi.ts      ← Login, register, token management
+├── OrderApi.ts     ← Order CRUD operations
+├── ProductApi.ts   ← Product search, CRUD
+└── index.ts        ← Barrel export
+Architecture pattern: Domain API Clients
+typescriptexport class AuthApi {
+    private apiHelper: ApiHelper;
+    private baseUrl: string;
+
+    constructor(context: ApiContext, baseUrl: string) {
+        this.apiHelper = new ApiHelper(context); // Delegates to shared helper
+        this.baseUrl = baseUrl;
+    }
+
+    async login(username: string, password: string): Promise<LoginResponse> {
+        const response = await this.apiHelper.callApi({
+            url: `${this.baseUrl}/api/auth/login`,
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            data: { username, password },
+        });
+        if (response.status() !== 200) throw new Error(`Login failed: ${response.status()}`);
+        return await response.json();
+    }
+Strong typing on API responses:
+typescriptexport interface LoginResponse {
+    token: string;
+    userId: string;
+    expiresIn: number;
+}
+The API method returns Promise<LoginResponse>, not Promise<any>. This means callers get full type safety on the response object — TypeScript will error if you try to access loginResponse.nonExistentField.
+Integration with UI tests — The ApiContext = Page | APIRequestContext union type means you can call API methods INSIDE a UI test using the page's request context:
+typescripttest('setup via API, validate via UI', async ({ page }) => {
+    const authApi = new AuthApi(page, config.apiBaseUrl);
+    const { token } = await authApi.login('user', 'pass'); // API login
+    // Now inject token into browser storage and test UI behavior
+});
+
+1.5 — CI/CD Architecture
+GitHub Actions — Two workflows:
+playwright.yml (full regression):
+yamlstrategy:
+  fail-fast: false
+  matrix:
+    shard: [1, 2, 3, 4]
+4-way test sharding means 4 parallel machines each run 25% of tests. A 20-minute test suite becomes ~5 minutes. fail-fast: false ensures all shards complete even if one fails, giving complete test results.
+smoke-tests.yml (PR gate):
+yamlrun: npx playwright test --grep "@P0|@Smoke" --project=chromium
+Fast feedback on PRs — only P0 + Smoke tests, only Chromium. This is under 15 minutes and gates all merges.
+Shard report merging:
+yaml- name: Merge HTML Reports
+  run: npx playwright merge-reports --reporter html ./all-reports
+Playwright's merge-reports combines reports from all shards into one unified HTML report. Without this, you'd have 4 separate reports.
+
+1.6 — Execution Flow (npm test → result)
+npm test
+    ↓
+playwright test (reads playwright.config.ts)
+    ↓
+dotenv.config() loads .env → process.env populated
+    ↓
+Playwright discovers all *.spec.ts in src/tests/
+    ↓
+For each project (chromium/firefox/webkit/mobile-chrome):
+    ↓
+    Workers spawn (3 local / 2 CI)
+    Each worker gets a test assignment
+        ↓
+        Test file imports { test, expect } from '../fixtures'
+        ↓
+        test('...', async ({ loginPage, checkoutModule }) => {
+            ↓
+            Fixtures resolve (Playwright dependency injection):
+            - loginPage fixture runs: new LoginPage(page) → passed in
+            - checkoutModule fixture runs: new CheckoutModule(page) → passed in
+            ↓
+            Browser context created, page opened
+            ↓
+            test.beforeEach hooks run
+            ↓
+            Test body executes
+            ↓
+            Assertions run (expect(...).toBe(...))
+            ↓
+            On failure: screenshot + video + trace captured
+            ↓
+            Fixture teardown (context.close())
+            ↓
+            All reporters notified (onTestEnd)
+        })
+    ↓
+All tests complete
+    ↓
+onEnd() fires → CustomTTAReporter generates final HTML
+Playwright generates HTML report
+JSON report written to test-results/results.json
+
+PHASE 2 — Key TypeScript & Playwright Concepts (from the actual code)
+TypeScript Concepts Used
+ConceptWhere UsedWhyinterfaceAppConfig, TestFixtures, LoginResponseType contracts for objectstype aliasApiContext, HttpMethodUnion types and aliasesenumLogLevelNamed constant setsPartial<T>getEnvironmentConfig() returnOptional override objectsclass + privateAll Page/Module/Util classesEncapsulationasync/awaitEvery action/fixture/API callNon-blocking I/OPromise<T>All async return typesExplicit async contractsGenerics <T>base.extend<TestFixtures>, parseJsonResponse<T>Reusable typed containersUnion typesApiContext = Page | APIRequestContextFlexible parameter typesType narrowing'request' in this.contextRuntime type safetyStatic membersLogger.logLevel, Logger.create()Class-level shared state
+Playwright Concepts Used
+ConceptWhere UsedCustom fixturessrc/fixtures/index.ts — base.extend()storageStateauth.fixture.ts — session persistenceMultiple reportersplaywright.config.tsProjectsplaywright.config.ts — multi-browserdevices presetplaywright.config.ts — device emulationtest.step()checkout.spec.ts — named test stepstest.describe()All spec files — test groupingtest.beforeEach()checkout.spec.ts — shared setupRetriesplaywright.config.ts — CI retry--grepnpm scripts for tag-based filteringShardingplaywright.yml — parallel CI executionreporter interfaceCustomTTAReporter.ts — custom reportingexpect assertionsPage assertion methodspage.waitForURL()Login flows — navigation confirmation
+
+PHASE 3 — Architect-Level Observations & Improvements
+✅ What's Done Well
+
+Three-layer POM (Page + Module + Test) — clean separation of concerns
+Custom reporter with real-time updates and history — production-grade
+Multiple reporters — covers all stakeholder needs
+Auth fixture with storageState fallback — resilient design
+CI sharding — enterprise-scale parallel execution
+Typed test data — JSON + TypeScript interfaces
+Lazy locator evaluation — arrow function locators prevent stale references
+
+🔧 Gaps to Address (Architect Notes)
+1. Missing getEnvironmentConfig() usage:
+typescript// Current: getEnvironmentConfig() exists but isn't merged into config
+// Fix:
+export const config: AppConfig = {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    ...getEnvironmentConfig(process.env.NODE_ENV),
+};
+2. No global setup for authentication state:
+The framework logs in per-test in beforeEach. Enterprise frameworks use Playwright's globalSetup to log in ONCE, save storageState, and all tests reuse it:
+typescript// playwright.config.ts
+globalSetup: './src/fixtures/global.setup.ts',
+3. No schema validation on API responses:
+typescript// Missing: response schema validation
+// Should add: Zod or ajv for runtime response shape validation
+const schema = z.object({ token: z.string(), userId: z.string() });
+const validated = schema.parse(await response.json());
+4. forbidOnly in config is correct but testData in config is questionable:
+The validCreditCard data in src/config/index.ts is test data, not config. It should live in src/testdata/. Config should be environment settings only.
+5. No database setup/teardown:
+No DB seeding or cleanup. For true enterprise testing you'd add a globalSetup that seeds test data and a globalTeardown that cleans it
+
+--------------------------------------------------------
+You currently have TWO different responsibilities separated.
+
+1. src/config/index.ts
+
+This file is:
+
+Application Configuration Layer
+
+It manages:
+
+environment variables
+typed config
+URLs
+credentials
+API settings
+reusable runtime settings
+
+Think of it as:
+
+Central configuration service
+2. playwright.config.ts
+
+This file is:
+
+Playwright Runner Configuration
+
+It manages:
+
+test execution
+browser settings
+retries
+workers
+reporters
+screenshots
+tracing
+Playwright runtime behavior
+
+Think of it as:
+
+Playwright engine setup
+Most Important Architectural Difference
+
+Without separation:
+
+playwright.config.ts
+↓
+contains EVERYTHING
+
+With separation:
+
+src/config/index.ts
+↓
+central app config
+
+playwright.config.ts
+↓
+consumes app config
+
+This creates:
+
+Single Source of Truth
+
+VERY important architecture principle
+-------------------------------------------------

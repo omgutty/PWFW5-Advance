@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*",
+    "playwright.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
+
+//-- tsconfig.json 
+//"strict": true — enables ALL strict checks. This catches null access, implicit any, and more at compile time. Non-negotiable in enterprise TypeScript.
+//"resolveJsonModule": true — allows import data from './testdata/users.json'. Without this the JSON imports in the framework would fail.
+//"esModuleInterop": true — allows import * as dotenv from 'dotenv' syntax to work correctly with CommonJS modules.
+//"target": "ES2020" — allows async/await, Promise, optional chaining without transpilation overhead.
