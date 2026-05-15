@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
-import { LoginPage } from '../pages/LoginPage';
 import { Logger } from '../utils/Logger';
+import { LoginPage } from "../pages";
 
 // ─── Why Module Layer Exists ──────────────────────────────────────────────────
 // LoginPage knows HOW to interact with the login form.

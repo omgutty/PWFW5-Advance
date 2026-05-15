@@ -1,6 +1,6 @@
 import {test as base, Page} from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
-import { LoginModule } from '../modules/LoginModule';
+import { LoginPage } from '../pages';
+import { LoginModule } from '../modules';
 import { config } from '../config';
 
 // ─── TestFixtures Interface ──────────────────────────────────────────────────
