@@ -26,5 +26,6 @@ export class LoginPage{
     errorMessage = () => this.page.locator('[data-test="error"]');
     errorCloseButton = () => this.page.locator('[data-test="error-button"]');
 
+    
 
 }
