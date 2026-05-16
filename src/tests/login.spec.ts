@@ -31,11 +31,35 @@ test.describe('@PO @Smoke Login Feature',()=>{
                await expect(page).toHaveURL(/inventory/);
                 // page is accessible here because it is in the outer async scope
             // JavaScript closures give inner functions access to outer variables
-        })
+        })   
+    });
+
+    test('should show error invalid credentials ',async ({loginModule })=>{
+        await test.step('Attempt logging in with invalid password',async ()=>{
+           const errorText= await loginModule.attemptInvalidLogin
+                ( 'standard_user',
+                'wrong_password');
+            expect(errorText).toContain('Username and password do not match');
+        });
         
     })
-
 });
+
+
+    // ─── Using the authenticatedPage fixture ─────────────────────────────────────
+    // This test receives a page that is ALREADY logged in.
+    // No login code needed in the test body.
+    // The fixture handles it transparently.
+test.describe('@P1 @Regression Post-Login State', () => {
+    test('should be on inventory page after authentication', async ({ authenticatedPage }) => {
+        await test.step('Verify authenticated page lands on inventory', async () => {
+            await expect(authenticatedPage).toHaveURL(/inventory/);
+        });
+    });
+});
+
+    
+
 
     
 
