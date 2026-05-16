@@ -32,7 +32,7 @@ export class LoginPage{
     // Business logic belongs in Modules.
 
     async navigate():Promise<void>{
-        await this.page.goto('/')
+        await this.page.goto('/',{ waitUntil: 'domcontentloaded' })
     }
 
     async enterUsername(username:string):Promise<void>{
@@ -48,6 +48,9 @@ export class LoginPage{
     }
 
     async geterrrormessage():Promise<string>{
+        // Wait for the element to be visible before reading text
+    // Without this, textContent() can return null on fast responses
+     await this.errorMessage().waitFor({ state: 'visible' });
         return (await this.errorMessage().textContent()) ?? '';
     }
 

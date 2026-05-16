@@ -22,6 +22,6 @@
 
 //-- tsconfig.json 
 //"strict": true — enables ALL strict checks. This catches null access, implicit any, and more at compile time. Non-negotiable in enterprise TypeScript.
-//"resolveJsonModule": true — allows import data from './testdata/users.json'. Without this the JSON imports in the framework would fail.
+//"resolveJsonModule": true //— allows import data from './testdata/users.json'. Without this the JSON imports in the framework would fail.
 //"esModuleInterop": true — allows import * as dotenv from 'dotenv' syntax to work correctly with CommonJS modules.
 //"target": "ES2020" — allows async/await, Promise, optional chaining without transpilation overhead.

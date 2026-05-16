@@ -1,0 +1,28 @@
+{
+    "products": [
+        {
+            "id": "product-001",
+            "name": "Sauce Labs Backpack",
+            "price": 29.99,
+            "category": "bags"
+        },
+        {
+            "id": "product-002",
+            "name": "Sauce Labs Bike Light",
+            "price": 9.99,
+            "category": "accessories"
+        },
+        {
+            "id": "product-003",
+            "name": "Sauce Labs Bolt T-Shirt",
+            "price": 15.99,
+            "category": "clothing"
+        }
+    ],
+    "sortOptions": [
+        "Name (A to Z)",
+        "Name (Z to A)",
+        "Price (low to high)",
+        "Price (high to low)"
+    ]
+}
