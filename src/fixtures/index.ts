@@ -14,6 +14,7 @@ export type TestFixtures = {
     loginPage: LoginPage;
     loginModule: LoginModule;
     authenticatedPage: Page;
+
 };
 
 
