@@ -563,3 +563,22 @@ What the trade-off is (circular dependencies)
 How you handle the trade-off (no logic in barrel files, flat re-exports only)
 
 ----------------------------------------------------------
+
+#Commit message standard 
+feat(login): add token-based authentication support
+fix(api): resolve null response handling in user service
+refactor(framework): move common locators to base page
+test(regression): add checkout flow validation tests
+
+Most Common Commit Types
+Type	Usage
+feat	New feature
+fix	Bug fix
+refactor	Code improvement without behavior change
+test	Adding/updating tests
+docs	Documentation
+chore	Dependency/config/build updates
+style	Formatting only
+perf	Performance optimization
+ci	CI/CD pipeline changes
+--------------------------------------------------------
