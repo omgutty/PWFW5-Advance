@@ -28,13 +28,14 @@ export class InventoryPage{
     // ─── Dynamic Locators ─────────────────────────────────────────────────────
     // These accept parameters to target a SPECIFIC product
     // This is the correct pattern for list-based pages
-    addToCardButton=(productName: string)=>{
-        this.page.locator(`[data-test="add-to-cart-${productName}"]`);
-    }
-
-    removeButton= (productName:string)=>{
-        this.page.locator(`[data-test="remove-${productName}"]`);
-    }
+    addToCardButton=(productName: string)=> this.page.locator(`[data-test="add-to-cart-${productName}"]`);
+    
+    removeButton= (productName:string)=> this.page.locator(`[data-test="remove-${productName}"]`);
+    /**
+     *  =>  expression          returns the expression automatically
+        => { expression }       returns void unless you write return
+        => { return expression} returns the expression explicitly
+     */
 
     productByName = (name: string) =>
         this.page.locator('.inventory_item')
@@ -53,7 +54,7 @@ export class InventoryPage{
 
     async removeFromCartByName(productName: string): Promise<void> {
         const slug = this.slugify(productName);
-        
+        await this.removeButton(slug).click();
     }
 
 
