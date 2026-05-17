@@ -57,7 +57,41 @@ export class InventoryPage{
         await this.removeButton(slug).click();
     }
 
+    async sortby(option: string):Promise<void>{
+        await this.sortDropdown().selectOption({label:option});
+    }
 
+    async clickcart():Promise<void>{
+        await this.cartIcon().click();
+    }
+
+    async clickProductByName(productname:string):Promise <void>{
+        await this.allProductNames().filter({hasText:productname}).click();
+    }
+
+    async getCartCount(){
+             // Cart badge only appears when items are in cart
+        // If badge is not visible, cart is empty → return 0
+        const isvisible=await this.cartBadge().isVisible();
+        if(!isvisible) return 0;
+        const text=await this.cartBadge().textContent();
+        return parseInt(text ?? '0', 10);
+    }
+
+    async getAllProductNames(): Promise<string[]> {
+        // returns array of all visible product name strings
+        return await this.allProductNames().allTextContents();
+    }
+
+    async getAllProductPrices(): Promise<number[]> {
+        const priceTexts = await this.allProductPrices().allTextContents();
+        // Price text is "$29.99" — strip $ and parse to number
+        return priceTexts.map(p => parseFloat(p.replace('$', '')));
+    }
+
+    async getPageTitle(): Promise<string> {
+        return (await this.pagetitle().textContent()) ?? '';
+    }
 
 
 
@@ -71,5 +105,40 @@ export class InventoryPage{
         return name.toLowerCase().replace(/\s+/g, '-');
     }
 
+     // ─── ASSERTIONS ───────────────────────────────────────────────────────────
 
+    async expectOnInventoryPage(): Promise<void> {
+        await expect(this.page).toHaveURL(/inventory/);
+        await expect(this.pagetitle()).toBeVisible();
+    }
+
+    async expectProductListVisible(): Promise<void> {
+        await expect(this.productList()).toBeVisible();
+    }
+
+    async expectCartCount(count: number): Promise<void> {
+        if (count === 0) {
+            await expect(this.cartBadge()).not.toBeVisible();
+        } else {
+            await expect(this.cartBadge()).toHaveText(String(count));
+        }
+    }
+
+    async expectProductVisible(productName: string): Promise<void> {
+        await expect(this.productByName(productName)).toBeVisible();
+    }
+
+    async expectSortedByNameAscending(): Promise<void> {
+        const names = await this.getAllProductNames();
+        const sorted = [...names].sort();
+        // Compare actual order to expected sorted order
+        expect(names).toEqual(sorted);
+    }
+
+    async expectSortedByPriceLowToHigh(): Promise<void> {
+        const prices = await this.getAllProductPrices();
+        const sorted = [...prices].sort((a, b) => a - b);
+        expect(prices).toEqual(sorted);
+    }
 }
+
