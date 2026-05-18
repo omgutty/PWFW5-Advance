@@ -1,8 +1,6 @@
 import { Page } from "@playwright/test";
 import { Logger } from "../utils";
-import { InventoryPage } from "../pages/InventoryPage";
-import { CartPage } from "../pages/CartPage";
-import { log } from "node:console";
+import { InventoryPage ,CartPage} from "../pages";
 
 // ─── Why ProductModule exists ─────────────────────────────────────────────────
 // InventoryPage knows HOW to click add-to-cart

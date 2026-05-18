@@ -1,7 +1,11 @@
 import {test as base, Page} from '@playwright/test';
-import { LoginPage } from '../pages';
-import { LoginModule } from '../modules';
 import { config } from '../config';
+//pages
+import { LoginPage ,CartPage,InventoryPage} from '../pages';
+
+//modules
+import { LoginModule ,ProductModule} from '../modules';
+
 
 // ─── TestFixtures Interface ──────────────────────────────────────────────────
 // This is the TYPE CONTRACT for all fixtures.
