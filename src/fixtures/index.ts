@@ -15,10 +15,14 @@ import { LoginModule ,ProductModule} from '../modules';
 // TypeScript errors at compile time if you try to use a fixture not listed here.
 
 export type TestFixtures = {
-    loginPage: LoginPage;
-    loginModule: LoginModule;
     authenticatedPage: Page;
 
+    loginPage: LoginPage;
+    inventoryPage: InventoryPage;
+    cartPage: CartPage;
+   
+    loginModule: LoginModule;
+    productModule: ProductModule;
 };
 
 
@@ -40,6 +44,14 @@ export const test = base.extend<TestFixtures>({
 
     loginModule: async ({page},use)=>{
         await  use(new LoginModule(page));
+    },inventoryPage: async ({ page }, use) => {
+        await use(new InventoryPage(page));
+    },
+    cartPage: async ({ page }, use) => {
+        await use(new CartPage(page));
+    },
+    productModule: async ({ page }, use) => {
+        await use(new ProductModule(page));
     },
 
 
