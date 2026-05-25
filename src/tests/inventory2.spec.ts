@@ -24,7 +24,7 @@ test.describe('@P0 @Smoke Inventory Feature', () => {
 
     test.beforeEach(async ({ loginModule }) => {
         // Login before every test in this describe block
-        // loginModule is injected by fixture — no manual instantiation
+        // loginModule is injected by fixture — no manual instantiation 
         await loginModule.dologin(standardUser.username, standardUser.password);
     });
 
