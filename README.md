@@ -603,6 +603,110 @@ Pre-commit hooks ensure code quality:
 
 ---
 
+## 🚀 Git Workflow: Commit and Push
+
+This framework includes automated scripts for streamlined Git commits with proper messages and pushing to your remote repository.
+
+### Quick Start
+
+#### Option 1: PowerShell (Recommended)
+
+```powershell
+# From the project root directory
+.\commit-and-push.ps1 "Your commit message here"
+```
+
+Or run interactively (you'll be prompted for the message):
+
+```powershell
+.\commit-and-push.ps1
+```
+
+#### Option 2: Windows Command Prompt
+
+```cmd
+# From the project root directory
+commit-and-push.bat "Your commit message here"
+```
+
+#### Option 3: From VS Code Terminal
+
+```powershell
+# In VS Code's integrated terminal
+& ".\commit-and-push.ps1" "Your commit message here"
+```
+
+### Script Features
+
+The commit-and-push script automatically:
+
+- ✅ Checks for uncommitted changes
+- ✅ Stages all modified files (`git add .`)
+- ✅ Creates a commit with your message
+- ✅ Pushes changes to your current branch
+- ✅ Displays clear success/error feedback with visual indicators
+- ✅ Handles errors gracefully
+
+### Commit Message Guidelines
+
+Use conventional commit format for consistency:
+
+```
+<type>(<scope>): <subject>
+
+<body>
+```
+
+**Valid types:**
+- `feat` - New feature
+- `fix` - Bug fix
+- `docs` - Documentation
+- `style` - Code style changes (no logic change)
+- `refactor` - Code refactoring
+- `perf` - Performance improvements
+- `test` - Test additions/modifications
+- `build` - Build system changes
+- `ci` - CI/CD changes
+- `chore` - Other changes
+
+**Examples:**
+
+```powershell
+.\commit-and-push.ps1 "feat(login): add remember me functionality"
+.\commit-and-push.ps1 "fix(cart): resolve checkout validation bug"
+.\commit-and-push.ps1 "test(inventory): add tests for product filtering"
+.\commit-and-push.ps1 "docs: update README with Git workflow"
+```
+
+### Git Status Check
+
+Before running the script, you can check your current changes:
+
+```bash
+git status
+```
+
+### Troubleshooting
+
+**"command not found"** → Use full path: `.\commit-and-push.ps1`
+
+**"cannot be loaded because running scripts is disabled"** → Already fixed during setup, but if needed:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+**"working tree is clean"** → No uncommitted changes detected. Make code changes first.
+
+**"Push failed"** → Check your Git remote and branch permissions:
+
+```bash
+git remote -v
+git branch -a
+```
+
+---
+
 ## 🤖 AI Assistant Support
 
 This framework is optimized for AI-assisted development:
