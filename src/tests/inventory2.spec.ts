@@ -17,9 +17,6 @@ const secondProduct = productsData.products[1];
 // If you need it once for all tests → use beforeAll
 // Here we use beforeEach because each test gets a fresh page context
  
-
-
-
 test.describe('@P0 @Smoke Inventory Feature', () => {
 
     test.beforeEach(async ({ loginModule }) => {
@@ -27,6 +24,7 @@ test.describe('@P0 @Smoke Inventory Feature', () => {
         // loginModule is injected by fixture — no manual instantiation 
         await loginModule.dologin(standardUser.username, standardUser.password);
     });
+
 
     test('should display inventory page after login', async ({ inventoryPage }) => {
         await test.step('Verify inventory page is displayed', async () => {
@@ -77,6 +75,7 @@ test.describe('@P0 @Smoke Inventory Feature', () => {
 // ─── Sorting Tests ─────────────────────────────────────────────────────────────
 // Separate describe block — these tests focus on sort functionality
 // Still need login so they have their own beforeEach
+//comments udpated
 
 test.describe('@P1 @Regression Inventory Sorting', () => {
 

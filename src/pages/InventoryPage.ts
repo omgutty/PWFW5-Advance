@@ -11,8 +11,12 @@ export class InventoryPage{
     // Notice the pattern: container first, then items within container
     // This mirrors how a real user reads the page — find the list, then find items
 
+    // ─── LOCATOR NAMING RULES ─────────────────────────────────────────────────────
+// data-test attribute locators → pass slugified name: this.slugify(productName)
+// visible text locators (hasText, filter) → pass original name as-is
+
     // Page level
-    pagetitle= ()=> this.page.locator('');
+    pagetitle= ()=> this.page.locator('.title');
     productList = () => this.page.locator('.inventory_list');
     sortDropdown = () => this.page.locator('[data-test="product-sort-container"]');
     cartIcon = () => this.page.locator('[data-test="shopping-cart-link"]');
@@ -49,7 +53,8 @@ export class InventoryPage{
 
     async addToCardByName(productname:string):Promise<void>{
         const slug= this.slugify(productname);
-        await this.productByName(slug).click();
+        await this.addToCardButton(slug).click();
+       //await this.productByName(slug).click();
     }
 
     async removeFromCartByName(productName: string): Promise<void> {
