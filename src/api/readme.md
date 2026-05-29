@@ -31,3 +31,7 @@ Pattern 3 — UI action + API validation
   Use UI to trigger an action
   Use API to verify the backend recorded it correctly
   Validates full stack integration
+
+
+  SauceDemo does not have a real REST API. For API testing we will use JSONPlaceholder — a free, public REST API used specifically for testing and prototyping. It has users, posts, comments, todos — perfect for demonstrating all HTTP methods.
+Base URL: https://jsonplaceholder.typicode.com
