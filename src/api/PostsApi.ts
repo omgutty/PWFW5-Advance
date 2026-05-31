@@ -4,7 +4,6 @@ import {ApiHelper} from "../utils";
 // ─── Response Interfaces ──────────────────────────────────────────────────────
 // These define the SHAPE of what the API returns.
 // Any code consuming PostsApi gets full type safety on response fields.
-
 export interface Post {
     userId: number;
     id: number;
@@ -65,4 +64,49 @@ export class PostsApi {
 
      // ─── POST create new post ──────────
    
-   
+   async createPost(postData: CreatePostRequest): Promise<Post> {
+        const response = await this.apiHelper.post(
+            `${this.baseUrl}/posts`,
+            postData,
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }
+        );
+        // JSONPlaceholder returns 201 Created for POST
+        this.apiHelper.assertStatus(response, 201);
+        return await this.apiHelper.parseJson<Post>(response);
+    }
+
+    // ─── PUT update entire post 
+    async updatePost(id:number,postData:CreatePostRequest):Promise<Post>{
+        const response=await this.apiHelper.put(`${this.baseUrl}/post/${id}`,postData,
+            {
+            headers: { 'Content-Type': 'application/json' }
+            })
+        this.apiHelper.assertStatus(response,200);
+        return this.apiHelper.parseJson<Post>(response)
+    }
+
+     // ─── PATCH partial update ─────────────────────────────────────────────────
+    async patchPost(id: number, partial: Partial<Post>): Promise<Post> {
+        // Partial<Post> means any subset of Post fields
+        // You can pass just { title: 'new title' } without all fields
+        const response = await this.apiHelper.patch(
+            `${this.baseUrl}/posts/${id}`,
+            partial,
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }
+        );
+        this.apiHelper.assertStatus(response, 200);
+        return await this.apiHelper.parseJson<Post>(response);
+    }
+
+    // ─── DELETE post ──────────────────────────────────────────────────────────
+    async deletePost(id: number): Promise<void> {
+        const response = await this.apiHelper.delete(
+            `${this.baseUrl}/posts/${id}`
+        );
+        this.apiHelper.assertStatus(response, 200);
+    }
+}

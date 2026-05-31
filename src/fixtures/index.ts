@@ -1,4 +1,4 @@
-import {test as base, Page} from '@playwright/test';
+import {APIRequestContext, test as base, Page,request} from '@playwright/test';
 import { config } from '../config';
 //pages
 import { LoginPage ,CartPage,InventoryPage} from '../pages';
@@ -6,6 +6,8 @@ import { LoginPage ,CartPage,InventoryPage} from '../pages';
 //modules
 import { LoginModule ,ProductModule} from '../modules';
 
+//api
+import { PostsApi } from '../api';
 
 // ─── TestFixtures Interface ──────────────────────────────────────────────────
 // This is the TYPE CONTRACT for all fixtures.
@@ -23,6 +25,9 @@ export type TestFixtures = {
    
     loginModule: LoginModule;
     productModule: ProductModule;
+
+    postsApi: PostsApi;
+    apiContext: APIRequestContext;
 };
 
 
@@ -54,7 +59,37 @@ export const test = base.extend<TestFixtures>({
         await use(new ProductModule(page));
     },
 
+    // ─── Standalone API context ───────────────────────────────────────────────
+    // This creates a pure HTTP client with NO browser attached.
+    // Use this for tests that only make API calls — no UI involved.
+    // It is lighter and faster than using page.request
 
+    apiContext: async ({}, use) => {
+        // request.newContext() creates a standalone APIRequestContext
+        // It has its own cookie jar, headers, baseURL
+        const apiRequestContext = await request.newContext({
+            baseURL: 'https://jsonplaceholder.typicode.com',
+            extraHTTPHeaders: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        await use(apiRequestContext);
+
+        // TEARDOWN — dispose the context to release network resources
+        await apiRequestContext.dispose();
+    },
+    // ─── Posts API fixture ────────────────────────────────────────────────────
+    // Wraps apiContext in the PostsApi domain class
+    // Test destructures { postsApi } and gets a fully configured client
+
+    postsApi: async ({ apiContext }, use) => {
+        // postsApi depends on apiContext
+        // Playwright resolves this dependency automatically
+        // apiContext fixture runs first, then postsApi fixture runs
+        await use(new PostsApi(apiContext));
+    },
     // ─── Authenticated Page Fixture ──────────────────────────────────────────
     // This is the key concept from checkpoint 2.
     //
