@@ -30,7 +30,8 @@ export class PostsApi {
 
     constructor (context: APIRequestContext){
         this.apiHelper = new ApiHelper(context);
-        this.baseUrl = 'https://jsonplaceholder.typicode.com/posts';
+       // this.baseUrl = 'https://jsonplaceholder.typicode.com/posts';
+         this.baseUrl = 'https://jsonplaceholder.typicode.com';
         }
 
         // ─── GET all posts ────────────────
@@ -51,7 +52,7 @@ export class PostsApi {
        // ─── GET posts by user ────────────────────────────────────────────────────
     // Demonstrates query parameter usage
     async getPostsByUser(userId:number):Promise<Post[]> {
-        const response=await this.apiHelper.get(`${this.baseUrl}/posts1`,{
+        const response=await this.apiHelper.get(`${this.baseUrl}/posts`,{
             params:{
                 userId: String(userId)
                 // params becomes ?userId=1 in the URL
@@ -79,7 +80,7 @@ export class PostsApi {
 
     // ─── PUT update entire post 
     async updatePost(id:number,postData:CreatePostRequest):Promise<Post>{
-        const response=await this.apiHelper.put(`${this.baseUrl}/post/${id}`,postData,
+        const response=await this.apiHelper.put(`${this.baseUrl}/posts/${id}`,postData,
             {
             headers: { 'Content-Type': 'application/json' }
             })

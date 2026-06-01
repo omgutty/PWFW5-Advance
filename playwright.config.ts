@@ -6,6 +6,9 @@ import { config } from './src/config';
 // playwright.config.ts simply consumes it.
 // This is the single source of truth fix from the analysis.
 
+// Handle SSL issues in corporate networks
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 export default defineConfig({
     testDir: './src/tests',
     
@@ -46,6 +49,7 @@ export default defineConfig({
         // Automatically wait for network to be idle after navigation
         actionTimeout: 15000,
         navigationTimeout: 30000,
+        ignoreHTTPSErrors: true, // Required in corporate networks with SSL inspection proxies
     },
 
     projects: [

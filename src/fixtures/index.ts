@@ -73,6 +73,10 @@ export const test = base.extend<TestFixtures>({
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
+        
+            // Disable SSL certificate verification
+        // Required in corporate networks with SSL inspection proxies
+        ignoreHTTPSErrors: true,
         });
 
         await use(apiRequestContext);
