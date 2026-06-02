@@ -68,3 +68,15 @@ Hybrid approach:
   ASSERT total          ← this is what you are testing
   Total setup: 2 seconds
 Same assertion. 6x faster. This is why enterprise frameworks always have a hybrid layer.
+-------------------------------------
+
+The Simple Rule to Remember
+Testing UI behavior, already logged in via UI
+→ use page.request
+→ shares session automatically
+→ no extra auth needed
+
+Testing API behavior only, no browser needed
+→ use request.newContext() (our apiContext fixture)
+→ completely independent
+→ must handle auth yourself if API requires it
