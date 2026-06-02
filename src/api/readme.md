@@ -35,3 +35,36 @@ Pattern 3 — UI action + API validation
 
   SauceDemo does not have a real REST API. For API testing we will use JSONPlaceholder — a free, public REST API used specifically for testing and prototyping. It has users, posts, comments, todos — perfect for demonstrating all HTTP methods.
 Base URL: https://jsonplaceholder.typicode.com
+
+-------------------------------------------------------
+ Hybrid Tests: API + UI Combined
+
+Why Hybrid Tests Exist
+You now have two separate test layers:
+UI Tests   → slow setup, tests real user experience
+API Tests  → fast setup, tests backend behavior
+Hybrid tests combine both strategically:
+Use API for everything that is NOT what you are testing
+Use UI for exactly what you ARE testing
+Real example:
+Test: "User with 3 items in cart sees correct total"
+
+Pure UI approach:
+  Login via UI          → 3 seconds
+  Search product 1      → 2 seconds
+  Add product 1         → 1 second
+  Search product 2      → 2 seconds
+  Add product 2         → 1 second
+  Search product 3      → 2 seconds
+  Add product 3         → 1 second
+  Navigate to cart      → 1 second
+  ASSERT total          ← this is what you are testing
+  Total setup: 13 seconds
+
+Hybrid approach:
+  Login via API         → 0.3 seconds
+  Add 3 items via API   → 0.3 seconds each
+  Navigate to cart UI   → 1 second
+  ASSERT total          ← this is what you are testing
+  Total setup: 2 seconds
+Same assertion. 6x faster. This is why enterprise frameworks always have a hybrid layer.
