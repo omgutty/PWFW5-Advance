@@ -1,12 +1,5 @@
 name: 🎭 Playwright Tests
 
-# ─── Trigger Conditions ────────────────────────────────────────────────────────
-# This workflow runs in three situations:
-# 1. Push to main or develop branch
-# 2. Pull request targeting main or develop
-# 3. Manual trigger from GitHub UI (workflow_dispatch)
-#    Manual trigger allows passing a tag to run specific tests
-
 on:
   push:
     branches: [main, develop]
@@ -28,12 +21,6 @@ on:
           - firefox
           - webkit
 
-# ─── Environment Variables ─────────────────────────────────────────────────────
-# CI=true activates these behaviors in playwright.config.ts:
-#   forbidOnly: true  → fails build if test.only() is committed
-#   retries: 2        → retries failed tests twice
-#   workers: 2        → limits parallel workers
-
 env:
   CI: true
   NODE_VERSION: '20'
@@ -44,26 +31,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
-    # ─── Matrix Strategy ────────────────────────────────────────────────────────
-    # Creates 4 parallel jobs, each running 25% of tests
-    # fail-fast: false means if shard 2 fails, shards 3 and 4 keep running
-    # Without this, one failure stops all other shards
-    # and you lose visibility into the full test results
-
     strategy:
       fail-fast: false
       matrix:
         shard: [1, 2, 3, 4]
 
     steps:
-      # ── Step 1: Get the code ─────────────────────────────────────────────────
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
-
-      # ── Step 2: Set up Node.js with npm cache ────────────────────────────────
-      # cache: 'npm' caches node_modules between runs
-      # Subsequent runs skip npm ci if package-lock.json hasn't changed
-      # Saves 30-60 seconds per run
 
       - name: 🟢 Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
@@ -71,45 +46,30 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      # ── Step 3: Install dependencies ────────────────────────────────────────
-      # npm ci is used instead of npm install in CI
-      # npm ci:
-      #   - uses package-lock.json exactly (reproducible builds)
-      #   - deletes node_modules first (clean install)
-      #   - faster than npm install
-      #   - fails if package-lock.json is out of sync with package.json
-
       - name: 📦 Install Dependencies
         run: npm ci
-
-      # ── Step 4: Install Playwright browsers ─────────────────────────────────
-      # --with-deps installs OS-level dependencies Playwright needs
-      # On Ubuntu this includes libglib, libnss, libatk etc.
-      # Only installing chromium here for speed
-      # Firefox and webkit can be added when cross-browser CI is needed
 
       - name: 🎭 Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
-      # ── Step 5: Run tests ────────────────────────────────────────────────────
-      # --shard=${{ matrix.shard }}/4
-      #   shard 1 runs tests 1-25%
-      #   shard 2 runs tests 26-50%
-      #   shard 3 runs tests 51-75%
-      #   shard 4 runs tests 76-100%
-      # Playwright distributes tests evenly across shards automatically
+      # ── Run tests with BLOB reporter for merging later ───────────────────────
+      # blob reporter generates raw binary files that merge-reports can process
+      # list reporter gives real-time console output
+      # We do NOT use html reporter here — that happens in the merge job
 
-      - name: 🧪 Run Playwright Tests
+      - name: 🧪 Run Playwright Tests (Shard ${{ matrix.shard }}/4)
         run: |
           if [ -n "${{ github.event.inputs.test_tag }}" ]; then
             npx playwright test \
               --shard=${{ matrix.shard }}/4 \
               --project=${{ github.event.inputs.browser || 'chromium' }} \
-              --grep "${{ github.event.inputs.test_tag }}"
+              --grep "${{ github.event.inputs.test_tag }}" \
+              --reporter=blob,list
           else
             npx playwright test \
               --shard=${{ matrix.shard }}/4 \
-              --project=chromium
+              --project=chromium \
+              --reporter=blob,list
           fi
         env:
           BASE_URL: ${{ secrets.BASE_URL || 'https://www.saucedemo.com' }}
@@ -118,22 +78,32 @@ jobs:
           NODE_TLS_REJECT_UNAUTHORIZED: '0'
           IGNORE_HTTPS_ERRORS: 'true'
 
-      # ── Step 6: Upload test artifacts ────────────────────────────────────────
-      # if: always() means this runs even if the test step failed
-      # Without always(), failed runs would not upload their reports
-      # and you would have no visibility into what went wrong
+      # ── Upload blob report ────────────────────────────────────────────────────
+      # blob-report/ is where Playwright writes blob files by default
+      # Each shard uploads its own blob artifact with a unique name
+      # merge job downloads ALL of them
 
-      - name: 📊 Upload Test Results
+      - name: 📊 Upload Blob Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-shard-${{ matrix.shard }}
-          path: |
-            playwright-report/
-            test-results/
-            tta-report/
+          name: blob-report-shard-${{ matrix.shard }}
+          path: blob-report/
+          retention-days: 1
+
+      # ── Upload TTA report per shard ───────────────────────────────────────────
+      # TTA report is still generated per shard
+      # Each shard has its own TTA report available for download
+
+      - name: 📊 Upload TTA Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tta-report-shard-${{ matrix.shard }}
+          path: tta-report/
           retention-days: 30
 
+      # ── Upload failure screenshots ────────────────────────────────────────────
       - name: 📸 Upload Failure Screenshots
         if: failure()
         uses: actions/upload-artifact@v4
@@ -142,19 +112,11 @@ jobs:
           path: test-results/**/*.png
           retention-days: 7
 
-  # ─── Merge Reports Job ──────────────────────────────────────────────────────
-  # This job runs AFTER all 4 shard jobs complete
-  # It downloads all 4 shard reports and merges them into one HTML report
-  # needs: test means this job waits for the test job to finish
-
+  # ─── Merge Reports Job ────────────────────────────────────────────────────────
   merge-reports:
     name: 📊 Merge Shard Reports
     needs: test
     runs-on: ubuntu-latest
-
-    # if: always() means merge even if some shards failed
-    # Without this, a single shard failure prevents report merging
-    # and you lose visibility into passing tests from other shards
     if: always()
 
     steps:
@@ -170,25 +132,38 @@ jobs:
       - name: 📦 Install Dependencies
         run: npm ci
 
-      # Download all 4 shard reports into one folder
-      - name: 📥 Download All Shard Reports
+      # ── Download all blob artifacts ───────────────────────────────────────────
+      # pattern: blob-report-shard-* downloads all 4 shard blobs
+      # They land in all-blob-reports/blob-report-shard-1/ etc.
+
+      - name: 📥 Download All Blob Reports
         uses: actions/download-artifact@v4
         with:
-          path: all-reports
-          pattern: test-results-shard-*
+          path: all-blob-reports
+          pattern: blob-report-shard-*
+          merge-multiple: true
 
-      # Merge 4 separate Playwright HTML reports into one unified report
+      # ── Verify files exist before merging ────────────────────────────────────
+      # This step helps debug if merge fails — shows what was downloaded
+      - name: 🔍 List Downloaded Files
+        run: |
+          echo "Contents of all-blob-reports:"
+          ls -la all-blob-reports/ || echo "Directory is empty"
+          find all-blob-reports -name "*.zip" | head -20 || echo "No zip files found"
+
+      # ── Merge blob files into one HTML report ────────────────────────────────
       - name: 📊 Merge HTML Reports
-        run: npx playwright merge-reports --reporter html ./all-reports
+        run: npx playwright merge-reports --reporter html ./all-blob-reports
 
-      - name: 📤 Upload Merged Report
+      # ── Upload merged HTML report ─────────────────────────────────────────────
+      - name: 📤 Upload Merged HTML Report
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-merged
           path: playwright-report/
           retention-days: 30
 
-      # Write a summary to the GitHub Actions run page
+      # ── Write summary ─────────────────────────────────────────────────────────
       - name: 📋 Write Job Summary
         if: always()
         run: |
