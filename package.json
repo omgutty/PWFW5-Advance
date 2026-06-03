@@ -1,21 +1,36 @@
 {
   "name": "my-playwright-framework",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "description": "Enterprise Playwright TypeScript Framework",
   "type": "commonjs",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:mobile": "playwright test --project=mobile-chrome",
+    "test:smoke": "playwright test --grep @Smoke",
+    "test:regression": "playwright test --grep @Regression",
+    "test:p0": "playwright test --grep @P0",
+    "test:p1": "playwright test --grep @P1",
+    "test:ci": "playwright test --reporter=list,json",
+    "test:login": "playwright test src/tests/login.spec.ts",
+    "test:inventory": "playwright test src/tests/inventory.spec.ts",
+    "test:api": "playwright test src/tests/api.spec.ts",
+    "test:hybrid": "playwright test src/tests/hybrid.spec.ts",
+    "report:pw": "playwright show-report",
+    "lint": "tsc --noEmit",
+    "clean": "rmdir /s /q dist test-results playwright-report tta-report 2>nul || true"
+  },
   "devDependencies": {
-    "@playwright/test": "^1.60.0",
-    "@types/node": "^25.8.0",
-    "typescript": "^6.0.3"
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.6",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "dotenv": "^17.4.2"
+    "dotenv": "^17.2.3"
   }
 }

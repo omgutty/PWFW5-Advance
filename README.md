@@ -821,3 +821,27 @@ ISC
 <p align="center">
   Built with ❤️ by <a href="https://thetestingacademy.com">The Testing Academy</a>
 </p>
+
+//package.json file before changing the tta report 
+
+{
+  "name": "my-playwright-framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.8.0",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
+}

@@ -31,11 +31,18 @@ export default defineConfig({
     // Parallel workers: less in CI to avoid resource contention
     workers: process.env.CI ? 2 : undefined,
 
+    // reporter: [
+    //     ['html', { open: 'never' }],
+    //     ['json', { outputFile: 'test-results/results.json' }],
+    //     ['list'],
+    // ],
+
     reporter: [
-        ['html', { open: 'never' }],
-        ['json', { outputFile: 'test-results/results.json' }],
-        ['list'],
-    ],
+    ['./src/utils/CustomTTAReporter.ts'],
+    ['html', { open: 'never' }],
+    ['json', { outputFile: 'test-results/results.json' }],
+    ['list'],
+],
 
     use: {
         // THIS is the fix — imported from config, not duplicated
