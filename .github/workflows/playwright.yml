@@ -1,0 +1,203 @@
+name: 🎭 Playwright Tests
+
+# ─── Trigger Conditions ────────────────────────────────────────────────────────
+# This workflow runs in three situations:
+# 1. Push to main or develop branch
+# 2. Pull request targeting main or develop
+# 3. Manual trigger from GitHub UI (workflow_dispatch)
+#    Manual trigger allows passing a tag to run specific tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      test_tag:
+        description: 'Test tag to run (e.g. @Smoke, @P0, @Regression)'
+        required: false
+        default: ''
+      browser:
+        description: 'Browser to run tests on'
+        required: false
+        default: 'chromium'
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+
+# ─── Environment Variables ─────────────────────────────────────────────────────
+# CI=true activates these behaviors in playwright.config.ts:
+#   forbidOnly: true  → fails build if test.only() is committed
+#   retries: 2        → retries failed tests twice
+#   workers: 2        → limits parallel workers
+
+env:
+  CI: true
+  NODE_VERSION: '20'
+
+jobs:
+  test:
+    name: 🧪 Run Tests (Shard ${{ matrix.shard }}/4)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    # ─── Matrix Strategy ────────────────────────────────────────────────────────
+    # Creates 4 parallel jobs, each running 25% of tests
+    # fail-fast: false means if shard 2 fails, shards 3 and 4 keep running
+    # Without this, one failure stops all other shards
+    # and you lose visibility into the full test results
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+
+    steps:
+      # ── Step 1: Get the code ─────────────────────────────────────────────────
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      # ── Step 2: Set up Node.js with npm cache ────────────────────────────────
+      # cache: 'npm' caches node_modules between runs
+      # Subsequent runs skip npm ci if package-lock.json hasn't changed
+      # Saves 30-60 seconds per run
+
+      - name: 🟢 Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      # ── Step 3: Install dependencies ────────────────────────────────────────
+      # npm ci is used instead of npm install in CI
+      # npm ci:
+      #   - uses package-lock.json exactly (reproducible builds)
+      #   - deletes node_modules first (clean install)
+      #   - faster than npm install
+      #   - fails if package-lock.json is out of sync with package.json
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      # ── Step 4: Install Playwright browsers ─────────────────────────────────
+      # --with-deps installs OS-level dependencies Playwright needs
+      # On Ubuntu this includes libglib, libnss, libatk etc.
+      # Only installing chromium here for speed
+      # Firefox and webkit can be added when cross-browser CI is needed
+
+      - name: 🎭 Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      # ── Step 5: Run tests ────────────────────────────────────────────────────
+      # --shard=${{ matrix.shard }}/4
+      #   shard 1 runs tests 1-25%
+      #   shard 2 runs tests 26-50%
+      #   shard 3 runs tests 51-75%
+      #   shard 4 runs tests 76-100%
+      # Playwright distributes tests evenly across shards automatically
+
+      - name: 🧪 Run Playwright Tests
+        run: |
+          if [ -n "${{ github.event.inputs.test_tag }}" ]; then
+            npx playwright test \
+              --shard=${{ matrix.shard }}/4 \
+              --project=${{ github.event.inputs.browser || 'chromium' }} \
+              --grep "${{ github.event.inputs.test_tag }}"
+          else
+            npx playwright test \
+              --shard=${{ matrix.shard }}/4 \
+              --project=chromium
+          fi
+        env:
+          BASE_URL: ${{ secrets.BASE_URL || 'https://www.saucedemo.com' }}
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME || 'standard_user' }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD || 'secret_sauce' }}
+          NODE_TLS_REJECT_UNAUTHORIZED: '0'
+          IGNORE_HTTPS_ERRORS: 'true'
+
+      # ── Step 6: Upload test artifacts ────────────────────────────────────────
+      # if: always() means this runs even if the test step failed
+      # Without always(), failed runs would not upload their reports
+      # and you would have no visibility into what went wrong
+
+      - name: 📊 Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-shard-${{ matrix.shard }}
+          path: |
+            playwright-report/
+            test-results/
+            tta-report/
+          retention-days: 30
+
+      - name: 📸 Upload Failure Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-screenshots-shard-${{ matrix.shard }}
+          path: test-results/**/*.png
+          retention-days: 7
+
+  # ─── Merge Reports Job ──────────────────────────────────────────────────────
+  # This job runs AFTER all 4 shard jobs complete
+  # It downloads all 4 shard reports and merges them into one HTML report
+  # needs: test means this job waits for the test job to finish
+
+  merge-reports:
+    name: 📊 Merge Shard Reports
+    needs: test
+    runs-on: ubuntu-latest
+
+    # if: always() means merge even if some shards failed
+    # Without this, a single shard failure prevents report merging
+    # and you lose visibility into passing tests from other shards
+    if: always()
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      # Download all 4 shard reports into one folder
+      - name: 📥 Download All Shard Reports
+        uses: actions/download-artifact@v4
+        with:
+          path: all-reports
+          pattern: test-results-shard-*
+
+      # Merge 4 separate Playwright HTML reports into one unified report
+      - name: 📊 Merge HTML Reports
+        run: npx playwright merge-reports --reporter html ./all-reports
+
+      - name: 📤 Upload Merged Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-merged
+          path: playwright-report/
+          retention-days: 30
+
+      # Write a summary to the GitHub Actions run page
+      - name: 📋 Write Job Summary
+        if: always()
+        run: |
+          echo "## 🎭 Playwright Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 📊 Total Shards | 4 |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🌐 Browser | Chromium |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔁 Retries | 2 |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📁 Download the merged report from Artifacts above." >> $GITHUB_STEP_SUMMARY

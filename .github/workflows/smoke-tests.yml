@@ -1,0 +1,100 @@
+name: 🚀 Smoke Tests
+
+# ─── Trigger Conditions ────────────────────────────────────────────────────────
+# Smoke tests run on every PR to main or develop
+# They are the GATE — PR cannot merge if smoke tests fail
+# Also supports manual trigger
+
+on:
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+env:
+  CI: true
+  NODE_VERSION: '20'
+
+jobs:
+  smoke:
+    name: 🔥 Smoke Tests (@P0 + @Smoke)
+    runs-on: ubuntu-latest
+
+    # 15 minutes max — if smoke tests take longer something is wrong
+    timeout-minutes: 15
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🎭 Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      # ── Run only @P0 and @Smoke tagged tests ─────────────────────────────────
+      # | is regex OR — matches tests tagged with either @P0 or @Smoke
+      # --project=chromium only — fastest browser, no cross-browser for smoke
+      # No sharding — smoke suite is small enough to run on one machine
+
+      - name: 🔥 Run Smoke Tests
+        run: npx playwright test --grep "@P0|@Smoke" --project=chromium
+        env:
+          BASE_URL: ${{ secrets.BASE_URL || 'https://www.saucedemo.com' }}
+          TEST_USERNAME: ${{ secrets.TEST_USERNAME || 'standard_user' }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD || 'secret_sauce' }}
+          NODE_TLS_REJECT_UNAUTHORIZED: '0'
+          IGNORE_HTTPS_ERRORS: 'true'
+
+      - name: 📊 Upload Smoke Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-report
+          path: |
+            playwright-report/
+            tta-report/
+          retention-days: 7
+
+      # ── Parse results and write summary ──────────────────────────────────────
+      - name: 📋 Write Smoke Test Summary
+        if: always()
+        run: |
+          echo "## 🔥 Smoke Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f test-results/results.json ]; then
+            PASSED=$(cat test-results/results.json | python3 -c "
+          import json,sys
+          data=json.load(sys.stdin)
+          print(data.get('stats',{}).get('expected',0))
+            ")
+            FAILED=$(cat test-results/results.json | python3 -c "
+          import json,sys
+          data=json.load(sys.stdin)
+          print(data.get('stats',{}).get('unexpected',0))
+            ")
+            echo "| Status | Count |" >> $GITHUB_STEP_SUMMARY
+            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| ✅ Passed | $PASSED |" >> $GITHUB_STEP_SUMMARY
+            echo "| ❌ Failed | $FAILED |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Results file not found" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      # ── Explicit fail step ────────────────────────────────────────────────────
+      # GitHub Actions marks a job as failed when any step exits non-zero
+      # The playwright test command already does this
+      # This step adds a clear error message visible in the PR checks panel
+
+      - name: ❌ Fail on Test Failures
+        if: failure()
+        run: |
+          echo "::error::Smoke tests failed. PR cannot be merged."
+          echo "::error::Check the smoke-test-report artifact for details."
+          exit 1

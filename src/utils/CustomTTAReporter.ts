@@ -16,8 +16,8 @@
  */
 /**
  * Custom Cygnet Reporter for Playwright
- * @author Om Gutty
- * @website https://thetestingacademy.com
+ * @author Om Gutty reference by Promod Datta
+ * @website 
  * @version 1.0.0
  * @description Custom HTML Reporter for Playwright Test Automation Framework
  */
