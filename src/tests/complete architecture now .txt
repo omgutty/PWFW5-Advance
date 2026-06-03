@@ -54,3 +54,26 @@ The principle is simple — use the fastest mechanism to set up test state,
      validating that API response shapes match our TypeScript interfaces,
       which acts as an early warning system for breaking backend changes 
       before they surface in UI test failures
+
+      blob reporter
+─────────────
+Output: binary .zip files in blob-report/ folder
+Purpose: raw data format designed specifically for merging
+Size: small per shard
+Use: intermediate format only, not human readable
+Command: --reporter=blob
+
+html reporter  
+─────────────
+Output: index.html + assets in playwright-report/ folder
+Purpose: human readable, opens in browser
+Size: larger, self-contained
+Use: final output after merging
+Command: --reporter=html
+
+merge-reports command
+─────────────────────
+Input:  blob files from multiple shards
+Output: one unified html report
+Works:  ONLY with blob input files
+Fails:  if given html files as input ← your original error
