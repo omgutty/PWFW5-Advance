@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Today's Playwright Learning</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #101418;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      color: #f8fafc;
+    }
+
+    .poster {
+      width: min(1080px, 100vw);
+      aspect-ratio: 1 / 1;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(20, 184, 166, 0.28), transparent 32%),
+        radial-gradient(circle at 82% 18%, rgba(245, 158, 11, 0.24), transparent 30%),
+        linear-gradient(135deg, #111827 0%, #172033 44%, #0f172a 100%);
+      padding: 64px;
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      pointer-events: none;
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 56px;
+      color: #cbd5e1;
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      padding: 12px 18px;
+      border: 1px solid rgba(45, 212, 191, 0.45);
+      background: rgba(15, 23, 42, 0.68);
+      color: #5eead4;
+    }
+
+    h1 {
+      max-width: 820px;
+      font-size: 76px;
+      line-height: 1.04;
+      font-weight: 900;
+      letter-spacing: 0;
+      margin-bottom: 24px;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      color: #dbeafe;
+      font-size: 30px;
+      line-height: 1.35;
+      font-weight: 500;
+      margin-bottom: 54px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 48px;
+    }
+
+    .tile {
+      min-height: 124px;
+      padding: 24px;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .num {
+      flex: 0 0 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      background: #14b8a6;
+      color: #071013;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .tile h2 {
+      color: #ffffff;
+      font-size: 23px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .tile p {
+      color: #cbd5e1;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 26px;
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+      color: #e2e8f0;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .stack {
+      color: #fbbf24;
+    }
+
+    .date {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <main class="poster" aria-label="LinkedIn visual for today's Playwright learning">
+    <div class="topline">
+      <span>Today's Build Log</span>
+      <span class="badge">Playwright + TypeScript</span>
+    </div>
+
+    <h1>From Test Scripts to Framework Thinking</h1>
+    <p class="subtitle">
+      Today I implemented smarter waits, reusable page actions, typed API clients,
+      and cleaner utility exports inside my automation framework.
+    </p>
+
+    <section class="grid">
+      <article class="tile">
+        <div class="num">01</div>
+        <div>
+          <h2>WaitHelper</h2>
+          <p>Centralized semantic waits, navigation waits, visibility waits, and custom polling.</p>
+        </div>
+      </article>
+      <article class="tile">
+        <div class="num">02</div>
+        <div>
+          <h2>Page Object Design</h2>
+          <p>Kept locators lazy, actions focused, and reusable assertions inside LoginPage.</p>
+        </div>
+      </article>
+      <article class="tile">
+        <div class="num">03</div>
+        <div>
+          <h2>Typed API Layer</h2>
+          <p>Built PostsApi with GET, POST, PUT, PATCH, DELETE and response interfaces.</p>
+        </div>
+      </article>
+      <article class="tile">
+        <div class="num">04</div>
+        <div>
+          <h2>Hybrid Mindset</h2>
+          <p>Use API for fast setup and UI for the behavior users actually experience.</p>
+        </div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <span class="stack">Automation Framework Learning</span>
+      <span class="date">June 4, 2026</span>
+    </footer>
+  </main>
+</body>
+</html>
