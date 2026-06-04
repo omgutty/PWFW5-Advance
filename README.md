@@ -777,6 +777,37 @@ Playwright_Framework/
 └── playwright.config.ts           # Playwright configuration
 ```
 
+
+ How Docker Layers Work Visually
+This is important for interviews:
+Dockerfile Layer Structure
+──────────────────────────────────────────────────────────
+Layer 1: FROM mcr.microsoft.com/playwright:v1.57.0-jammy
+         ↓ cached after first build
+         ↓ only re-downloads if base image changes
+
+Layer 2: WORKDIR /app
+         ↓ cached
+
+Layer 3: COPY package.json package-lock.json ./
+         ↓ only invalidated when package files change
+
+Layer 4: RUN npm ci
+         ↓ ONLY re-runs when package files change
+         ↓ this is the expensive step (downloads node_modules)
+         ↓ caching this saves 1-2 minutes per build
+
+Layer 5: COPY . .
+         ↓ invalidated on every code change
+         ↓ but layers 1-4 are still cached
+
+Layer 6: RUN mkdir -p test-results playwright-report tta-report
+         ↓ cached
+
+Result: code change → only layers 5-6 rebuild (seconds)
+        dependency change → layers 3-6 rebuild (minutes)
+        base image change → full rebuild (several minutes)
+
 ---
 
 ## 🧭 Why We Added Rule Engine and AI/MCP Controls
@@ -809,18 +840,9 @@ These additions were made to keep AI-assisted automation deterministic, reviewab
 ISC
 
 ---
-
-## 👨‍💻 Author
-
-**Pramod Dutta**
-- Website: [thetestingacademy.com](https://thetestingacademy.com)
-- GitHub: [@PramodDutta](https://github.com/PramodDutta)
-
 ---
 
-<p align="center">
-  Built with ❤️ by <a href="https://thetestingacademy.com">The Testing Academy</a>
-</p>
+
 
 //package.json file before changing the tta report 
 

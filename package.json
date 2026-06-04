@@ -22,6 +22,11 @@
     "test:api": "playwright test src/tests/api.spec.ts",
     "test:hybrid": "playwright test src/tests/hybrid.spec.ts",
     "report:pw": "playwright show-report",
+    "docker:build": "docker build -t my-playwright-framework .",
+    "docker:run": "docker-compose up playwright",
+    "docker:smoke": "docker-compose up smoke",
+    "docker:regression": "docker-compose up regression",
+    "docker:clean": "docker-compose down && docker rmi my-playwright-framework",
     "lint": "tsc --noEmit",
     "clean": "rmdir /s /q dist test-results playwright-report tta-report 2>nul || true"
   },

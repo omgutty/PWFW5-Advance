@@ -1,0 +1,98 @@
+# ─── Why docker-compose over plain docker run? ───────────────────────────────
+# docker run commands get long and hard to remember:
+# docker run -v $(pwd)/test-results:/app/test-results \
+#            -v $(pwd)/tta-report:/app/tta-report \
+#            -e BASE_URL=https://www.saucedemo.com \
+#            -e TEST_USERNAME=standard_user \
+#            my-framework
+#
+# docker-compose stores all this configuration in a file
+# Team members just run: docker-compose up
+# Consistent, reproducible, version controlled
+
+version: '3.8'
+
+services:
+
+  # ─── Full test suite ──────────────────────────────────────────────────────
+  playwright:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my-playwright-framework:latest
+    container_name: playwright-tests
+
+    # ── Volume mounts ──────────────────────────────────────────────────────
+    # Maps container directories to host machine directories
+    # This is how you get reports OUT of the container
+    # Without volumes, reports disappear when container stops
+    #
+    # Format: ./host-path:/container-path
+    volumes:
+      - ./test-results:/app/test-results
+      - ./playwright-report:/app/playwright-report
+      - ./tta-report:/app/tta-report
+
+    # ── Environment variables ──────────────────────────────────────────────
+    # These override the defaults set in Dockerfile
+    # .env file is read automatically by docker-compose
+    environment:
+      - BASE_URL=${BASE_URL:-https://www.saucedemo.com}
+      - TEST_USERNAME=${TEST_USERNAME:-standard_user}
+      - TEST_PASSWORD=${TEST_PASSWORD:-secret_sauce}
+      - NODE_ENV=test
+      - CI=true
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - IGNORE_HTTPS_ERRORS=true
+
+    # ── Command override ───────────────────────────────────────────────────
+    # Overrides the CMD in Dockerfile for this service
+    command: npx playwright test --project=chromium
+
+  # ─── Smoke tests only ─────────────────────────────────────────────────────
+  smoke:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my-playwright-framework:latest
+    container_name: playwright-smoke
+
+    volumes:
+      - ./test-results:/app/test-results
+      - ./playwright-report:/app/playwright-report
+      - ./tta-report:/app/tta-report
+
+    environment:
+      - BASE_URL=${BASE_URL:-https://www.saucedemo.com}
+      - TEST_USERNAME=${TEST_USERNAME:-standard_user}
+      - TEST_PASSWORD=${TEST_PASSWORD:-secret_sauce}
+      - NODE_ENV=test
+      - CI=true
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - IGNORE_HTTPS_ERRORS=true
+
+    command: npx playwright test --grep "@P0|@Smoke" --project=chromium
+
+  # ─── Specific tag ─────────────────────────────────────────────────────────
+  regression:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my-playwright-framework:latest
+    container_name: playwright-regression
+
+    volumes:
+      - ./test-results:/app/test-results
+      - ./playwright-report:/app/playwright-report
+      - ./tta-report:/app/tta-report
+
+    environment:
+      - BASE_URL=${BASE_URL:-https://www.saucedemo.com}
+      - TEST_USERNAME=${TEST_USERNAME:-standard_user}
+      - TEST_PASSWORD=${TEST_PASSWORD:-secret_sauce}
+      - NODE_ENV=test
+      - CI=true
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - IGNORE_HTTPS_ERRORS=true
+
+    command: npx playwright test --grep "@Regression" --project=chromium
