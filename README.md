@@ -2,7 +2,7 @@
 
 A modular, scalable test automation framework built with **Playwright** and **TypeScript** using the **Page Object Model (POM)** and **Module Pattern** architecture.
 
-> **Created by Om Gutty Reference by [Pramod Dutta](https://thetestingacademy.com)** 
+> **Created by Om Gutty Reference by (https://thetestingacademy.com)** 
 
 ---
 
@@ -1060,8 +1060,59 @@ WITH Docker:
 Volume mounts bridge the two worlds:
   Container writes reports → appears on Windows machine
   Container reads nothing from Windows (fully isolated)
+  -------
+  docker run [options] my-playwright-framework [optional command]
 
+If you provide a command at the end → that command runs
+If you do not provide a command → Dockerfile CMD runs (full suite)
 
+-----------------------------------------------
+ Using Docker Compose (Easier)
+Instead of remembering the long docker run command, use docker-compose:
+powershell# Run full test suite
+docker-compose up playwright
 
+# Run smoke tests only
+docker-compose up smoke
 
+# Run regression tests only
+docker-compose up regression
+---------------------------------------------
+Docker Compose reads docker-compose.yml, finds the service you named, and runs it with all the volumes and environment variables already configured.
+
+Clean Up Docker Resources
+After testing, clean up to free disk space:
+powershell# Remove stopped containers
+docker container prune
+
+# Remove unused images
+docker image prune
+
+# Remove everything unused (containers, images, networks, build cache)
+docker system prune
+
+# Remove specific image
+docker rmi my-playwright-framework
+
+------------------------
+What Docker Desktop Shows at Each Stage
+STAGE 1 — After docker build:
+  Images tab:
+    my-playwright-framework  latest  1.2GB  ✅
+
+STAGE 2 — While docker run is executing:
+  Containers tab:
+    random-name   Running   my-playwright-framework  ✅
   
+  Click on the container name → see logs in real time
+  This is the same output you see in terminal
+
+STAGE 3 — After tests finish (--rm used):
+  Containers tab:
+    (empty — auto removed)
+  
+  Images tab:
+    my-playwright-framework  still here  ✅
+    (image stays until you manually remove it)
+
+
