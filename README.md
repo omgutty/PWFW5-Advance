@@ -867,3 +867,201 @@ ISC
     "dotenv": "^17.4.2"
   }
 }
+
+
+# how to start docker 
+docker build -t my-playwright-framework .
+Run Tests Inside the Container
+Now run your tests. Use this command in PowerShell:
+powershelldocker run --rm `
+  -v "${PWD}/test-results:/app/test-results" `
+  -v "${PWD}/playwright-report:/app/playwright-report" `
+  -v "${PWD}/tta-report:/app/tta-report" `
+  -e BASE_URL=https://www.saucedemo.com `
+  -e TEST_USERNAME=standard_user `
+  -e TEST_PASSWORD=secret_sauce `
+  -e NODE_TLS_REJECT_UNAUTHORIZED=0 `
+  -e IGNORE_HTTPS_ERRORS=true `
+  my-playwright-framework
+Note: In PowerShell the backtick ` is the line continuation character. In CMD use ^ instead.
+What will happen:
+Docker starts the container
+    ↓
+Container starts Node.js
+    ↓
+Runs: npx playwright test --project=chromium
+    ↓
+You see in terminal:
+
+╔════════════════════════════════════════════════════════════════╗
+║        🎭 TTA PLAYWRIGHT AUTOMATION - REAL-TIME REPORT         ║
+╠════════════════════════════════════════════════════════════════╣
+║  📅 Started: ...                                               ║
+║  📊 Total Tests: 33                                            ║
+╚════════════════════════════════════════════════════════════════╝
+
+Running 33 tests using 2 workers
+
+✓ login › should login with valid credentials
+✓ login › should show error for locked out user
+...
+
+╔════════════════════════════════════════════════════════════════╗
+║                    📊 FINAL TEST SUMMARY                        ║
+╠════════════════════════════════════════════════════════════════╣
+║  ✅ Passed:  33                                                 ║
+║  ❌ Failed:  0                                                  ║
+╚════════════════════════════════════════════════════════════════╝
+    ↓
+Container exits automatically (--rm removes it)
+During the run, check Docker Desktop Containers tab:
+Containers tab shows:
+  NAME                STATUS      
+  (random name)       Running      ← your container while tests run
+  
+After tests finish:
+  (empty)                          ← --rm removed it automatically
+
+Step 5 — View Reports on Your Windows Machine
+After the container exits, your reports are on your machine:
+powershell# Open TTA report
+start tta-report\index.html
+
+# Open Playwright HTML report
+npx playwright show-report
+Navigate in File Explorer to:
+D:\playwright\PWFW5-Advance\my-playwright-framework\
+├── test-results\      ← videos, screenshots, traces
+├── playwright-report\ ← Playwright HTML report
+└── tta-report\        ← TTA branded report
+These folders now have files generated INSIDE the container but saved to your Windows machine through the volume mount.
+
+Step 6 — Run Specific Tests in Docker
+Run only smoke tests:
+powershelldocker run --rm `
+  -v "${PWD}/test-results:/app/test-results" `
+  -v "${PWD}/tta-report:/app/tta-report" `
+  -e BASE_URL=https://www.saucedemo.com `
+  -e TEST_USERNAME=standard_user `
+  -e TEST_PASSWORD=secret_sauce `
+  -e NODE_TLS_REJECT_UNAUTHORIZED=0 `
+  my-playwright-framework `
+  npx playwright test --grep "@Smoke" --project=chromium
+Run only login tests:
+powershelldocker run --rm `
+  -v "${PWD}/test-results:/app/test-results" `
+  -v "${PWD}/tta-report:/app/tta-report" `
+  -e BASE_URL=https://www.saucedemo.com `
+  -e TEST_USERNAME=standard_user `
+  -e TEST_PASSWORD=secret_sauce `
+  -e NODE_TLS_REJECT_UNAUTHORIZED=0 `
+  my-playwright-framework `
+  npx playwright test src/tests/login.spec.ts --project=chromium
+The pattern is:
+docker run [options] my-playwright-framework [optional command]
+
+If you provide a command at the end → that command runs
+If you do not provide a command → Dockerfile CMD runs (full suite)
+
+
+------------------------------
+ Using Docker Compose (Easier)
+Instead of remembering the long docker run command, use docker-compose:
+powershell# Run full test suite
+docker-compose up playwright
+
+# Run smoke tests only
+docker-compose up smoke
+
+# Run regression tests only
+docker-compose up regression
+
+Docker Compose reads docker-compose.yml, finds the service you named, and runs it with all the volumes and environment variables already configured.
+
+________________________________
+Clean Up Docker Resources
+After testing, clean up to free disk space:
+powershell# Remove stopped containers
+docker container prune
+
+# Remove unused images
+docker image prune
+
+# Remove everything unused (containers, images, networks, build cache)
+docker system prune
+
+# Remove specific image
+docker rmi my-playwright-framework
+-----------------------------------
+What Docker Desktop Shows at Each Stage
+STAGE 1 — After docker build:
+  Images tab:
+    my-playwright-framework  latest  1.2GB  ✅
+
+STAGE 2 — While docker run is executing:
+  Containers tab:
+    random-name   Running   my-playwright-framework  ✅
+  
+  Click on the container name → see logs in real time
+  This is the same output you see in terminal
+
+STAGE 3 — After tests finish (--rm used):
+  Containers tab:
+    (empty — auto removed)
+  
+  Images tab:
+    my-playwright-framework  still here  ✅
+    (image stays until you manually remove it)
+
+    --------------------------------------
+    Troubleshooting Common Issues
+Issue 1 — Volume mount permission error on Windows:
+powershell# If you see: Error response from daemon: invalid mode
+# Make sure Docker Desktop has file sharing enabled
+
+Docker Desktop → Settings → Resources → File Sharing
+Add: D:\playwright\PWFW5-Advance\my-playwright-framework
+Click Apply & Restart
+Issue 2 — Container exits immediately with no output:
+powershell# Remove --rm to keep container after exit
+# Then check logs
+docker run `
+  -v "${PWD}/test-results:/app/test-results" `
+  -e BASE_URL=https://www.saucedemo.com `
+  my-playwright-framework
+
+# After it exits, check logs
+docker ps -a                    ← find container ID
+docker logs CONTAINER_ID        ← see what happened
+Issue 3 — Image not found:
+powershell# Verify image exists
+docker images
+
+# If not there, rebuild
+docker build -t my-playwright-framework .
+
+The Mental Model — Local vs Docker
+WITHOUT Docker (what you have been doing):
+  Your Windows machine
+  ├── Node.js (your version)
+  ├── npm packages (your node_modules)
+  ├── Chromium (your browser version)
+  └── Your tests run here directly
+
+WITH Docker:
+  Your Windows machine
+  └── Docker Desktop
+      └── Linux container (isolated environment)
+          ├── Node.js 20 (exact, always)
+          ├── npm packages (clean install, always)
+          ├── Chromium (Playwright pinned version, always)
+          └── Your tests run here
+
+Volume mounts bridge the two worlds:
+  Container writes reports → appears on Windows machine
+  Container reads nothing from Windows (fully isolated)
+
+
+
+
+  

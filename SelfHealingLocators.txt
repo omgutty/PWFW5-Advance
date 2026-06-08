@@ -1,0 +1,92 @@
+Why Self-Healing Locators Exist — The Real Problem
+In enterprise projects, UI changes are the number one cause of test failures that are NOT real bugs:
+Sprint 1: Developer builds login form
+  <button id="submit-btn">Login</button>
+  Test passes ✅
+
+Sprint 3: Developer refactors CSS
+  <button class="btn-primary" type="submit">Login</button>
+  id="submit-btn" removed
+  Test fails ❌ — but application works perfectly
+
+This is called a FALSE FAILURE or FLAKY TEST
+The application is not broken. The locator is broken.
+--------------------------------------------------------
+How It Works Internally
+Self-Healing Engine
+│
+├── STEP 1: Try primary locator
+│   page.locator('#submit-btn')
+│   → found? → use it, done
+│   → not found? → move to step 2
+│
+├── STEP 2: Try fallback locators in order
+│   page.locator('[type="submit"]')
+│   → found? → use it, LOG WARNING, done
+│   → not found? → try next fallback
+│
+│   page.locator('button:has-text("Login")')
+│   → found? → use it, LOG WARNING, done
+│   → not found? → try next fallback
+│
+├── STEP 3: All fallbacks exhausted
+│   → THROW ERROR with detailed message
+│   → "All locators failed: [list all tried]"
+│
+└── STEP 4: Report generation
+    → Healing events logged to report
+    → Shows which tests used fallback locators
+    → Team knows which locators need updating
+
+---------------------------------------------------
+The Three Levels of Self-Healing
+There are different approaches. Understand all three for interviews:
+LEVEL 1 — Manual fallback array (what we will build)
+  Developer defines multiple selectors
+  Engine tries them in order
+  Simple, transparent, team controls it
+  Best for most enterprise teams
+
+LEVEL 2 — Attribute-based healing
+  Engine automatically tries related attributes
+  If data-test fails → tries id → tries class → tries text
+  More automatic, less control
+  Risk: may find wrong element
+
+LEVEL 3 — AI/ML based healing (Healenium, Applitools)
+  Machine learning analyzes DOM changes
+  Predicts the new location of moved elements
+  Fully automatic, black box
+  Enterprise cost, complex setup
+------------------------------------------------------
+
+Interview Answer — Self-Healing Locators
+
+"Self-healing locators solve the maintenance burden caused by UI refactoring breaking
+ test locators when the application itself is still working correctly. 
+ Our implementation has three parts. First, the SelfHealingLocator utility which accepts 
+ an element name and an ordered array of selectors. It tries each selector with a short timeout, 
+ returns the first one that finds a visible element,
+  and logs a warning if it had to fall back from the primary. Second, 
+  the Page Objects define selector arrays ordered from most specific to most 
+  generic — data-test attributes first, then IDs, then semantic attributes,
+   then text content as last resort. Third, a global teardown hook collects
+    all healing events across the entire test run and generates a healing report 
+    showing exactly which primary selectors need to be updated. The key architectural 
+    decision is that self-healing only applies to actions, not assertions. Assertions
+     should use the most specific single selector because you want assertions to fail 
+     loudly when something is genuinely wrong. Self-healing is for navigation and 
+     interaction — getting to the state you want to assert on. The healing report 
+     is the feedback loop that keeps the framework healthy — 
+     it tells engineers which locators drifted so they can update 
+     the primary selector before the fallbacks are also deprecated."
+
+     ❌ "Self-healing means tests never fail"
+   Wrong — tests still fail if ALL selectors fail
+
+❌ "We use AI to find elements"
+   Level 3 only — be specific about which level you implemented
+
+❌ "Self-healing replaces good locator strategy"
+   Wrong — it supplements it. Primary should always be a stable selector.
+   Healing is the safety net, not the first approach.

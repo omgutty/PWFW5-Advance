@@ -8,7 +8,7 @@
 # playwright:v1.57.0-jammy = exact Playwright version on Ubuntu 22.04 (jammy)
 # Pinning the version ensures reproducible builds
 
-FROM mcr.microsoft.com/playwright:v1.57.0-jammy
+FROM mcr.microsoft.com/playwright:v1.60.0-jammy
 
 # ─── Metadata ─────────────────────────────────────────────────────────────────
 LABEL maintainer="Om_gutty"
