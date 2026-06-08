@@ -11,7 +11,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 export default defineConfig({
     testDir: './src/tests',
-    
+    // this tear down is for the self healing tear down 
+    globalTeardown: './src/fixtures/global.teardown.ts', 
     // Global test timeout — entire test including beforeEach
     timeout: 60000,
     

@@ -11,3 +11,7 @@ export { WaitHelper } from './WaitHelper';
 export { ApiHelper } from './ApiHelper';
 export {DataGenerator} from './DataGenerator';
 export type { ApiRequestOptions, RetryOptions, HttpMethod } from './ApiHelper';
+
+//self healing utlity interface 
+export { SelfHealingLocator } from './SelfHealingLocator';
+export type { HealingResult, HealingEvent } from './SelfHealingLocator';

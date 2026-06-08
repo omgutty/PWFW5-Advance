@@ -90,3 +90,29 @@ Interview Answer — Self-Healing Locators
 ❌ "Self-healing replaces good locator strategy"
    Wrong — it supplements it. Primary should always be a stable selector.
    Healing is the safety net, not the first approach.
+
+   ----
+   architecture overview 
+   LoginPage
+│
+├── Standard locators    → for assertions (unchanged)
+│   usernameInput = () => this.page.locator('[data-test="username"]')
+│
+├── Selector arrays      → ordered from specific to generic
+│   selectors.username = ['[data-test="username"]', '#user-name', ...]
+│
+└── SelfHealingLocator   → tries selectors in order, logs healing
+    healer.fill('username', selectors.username, value)
+         ↓
+    Try selector[0] → found? return locator
+    Try selector[1] → found? return locator + log warning
+    Try selector[2] → found? return locator + log warning
+    All failed?     → throw detailed error
+
+
+SelfHealingLocator (static healing log)
+│
+├── Records every healing event
+│   { elementName, primarySelector, healedSelector, testName }
+│
+└── globalTeardown prints summary and writes JSON report
