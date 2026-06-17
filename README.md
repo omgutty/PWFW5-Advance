@@ -1116,3 +1116,18 @@ STAGE 3 — After tests finish (--rm used):
     (image stays until you manually remove it)
 
 
+Cavemen installation 
+Install Only for VS Code Copilot
+Navigate to your project folder:
+cd D:\playwright\my-autoheal-project
+Then run:
+### Caveman AI Assistant Installation
+
+To enable the Caveman AI assistant features for compressed communication, run the following command in your terminal:
+
+```bash
+npx -y github:JuliusBrussee/caveman -- --only copilot --with-init
+```
+
+This command installs the necessary configurations to integrate the Caveman skills into your Copilot environment, allowing for more concise and efficient interactions.
+
