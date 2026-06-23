@@ -49,7 +49,8 @@ export const test = base.extend<TestFixtures>({
 
     loginModule: async ({page},use)=>{
         await  use(new LoginModule(page));
-    },inventoryPage: async ({ page }, use) => {
+    },
+    inventoryPage: async ({ page }, use) => {
         await use(new InventoryPage(page));
     },
     cartPage: async ({ page }, use) => {
