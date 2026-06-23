@@ -4,11 +4,11 @@ import { UsersData } from '../testdata/types';
 import userraw from '../testdata/users.json';
 
 
-const UsersData= userraw as UsersData;
+const usersData= userraw as UsersData;
 
-const standarduser=UsersData.validUsers[0];
+const standarduser=usersData.validUsers[0];
 
-test.describe ('P0 Smoke Login Feature ', async ()=>{
+test.describe ('P0 Smoke Login Feature ',  ()=>{
 
      test("should login with valid credentials", async ({LoginModule2, page})=>{
 
