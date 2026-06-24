@@ -25,7 +25,7 @@ export type TestFixtures = {
     cartPage: CartPage;
    
     loginModule: LoginModule;
-    LoginModule2:LoginModule2;
+    loginModule2:LoginModule2;
     productModule: ProductModule;
 
     postsApi: PostsApi;
@@ -52,7 +52,7 @@ export const test = base.extend<TestFixtures>({
     loginModule: async ({page},use)=>{
         await  use(new LoginModule(page));
     },
-    LoginModule2: async ({page}, use )=>{
+    loginModule2: async ({page}, use )=>{
         await use(new LoginModule2(page))
     },
     inventoryPage: async ({ page }, use) => {
