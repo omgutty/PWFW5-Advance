@@ -30,6 +30,7 @@ export type TestFixtures = {
 
     postsApi: PostsApi;
     apiContext: APIRequestContext;
+    
 };
 
 
