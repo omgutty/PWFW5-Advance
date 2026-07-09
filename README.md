@@ -1131,3 +1131,82 @@ npx -y github:JuliusBrussee/caveman -- --only copilot --with-init
 
 This command installs the necessary configurations to integrate the Caveman skills into your Copilot environment, allowing for more concise and efficient interactions.
 
+-------------------------------
+Two categories of utilities — important distinction
+Before adding anything, an architect separates utilities into two buckets:
+# Playwright TypeScript Framework - Utility Methods
+
+## Utility Organization
+
+| Category | Utility Method | Purpose | Suggested File |
+|-----------|---------------|---------|----------------|
+| Browser Navigation | Open Link in New Tab | Handles links opening in a new tab | BasePage.ts |
+| Browser Navigation | Open Link in New Window | Handles links opening in a new window | BasePage.ts |
+| Browser Navigation | Switch to New Tab | Switches control to newly opened tab | BasePage.ts |
+| Browser Navigation | Switch to Parent Tab | Returns control to parent tab | BasePage.ts |
+| Browser Navigation | Close Current Tab | Closes current tab and returns to parent | BasePage.ts |
+| Browser Navigation | Refresh Page | Refreshes current page | BasePage.ts |
+| Browser Navigation | Navigate Back / Forward | Browser navigation | BasePage.ts |
+| Wait Utilities | Wait for Loader | Wait until loader/spinner disappears | BasePage.ts |
+| Wait Utilities | Wait for Element | Wait for element visibility | BasePage.ts |
+| Wait Utilities | Wait for URL | Wait until URL changes | BasePage.ts |
+| Wait Utilities | Wait for Download | Wait for file download | BasePage.ts |
+| Wait Utilities | Wait for Popup | Wait for popup window | BasePage.ts |
+| Element Utilities | Click | Generic click wrapper | BasePage.ts |
+| Element Utilities | Force Click | Click when normal click fails | BasePage.ts |
+| Element Utilities | Double Click | Double click element | BasePage.ts |
+| Element Utilities | Right Click | Context click | BasePage.ts |
+| Element Utilities | Hover | Mouse hover action | BasePage.ts |
+| Element Utilities | Scroll Into View | Scroll element into viewport | BasePage.ts |
+| Element Utilities | Get Text | Returns element text | BasePage.ts |
+| Element Utilities | Get Attribute | Returns attribute value | BasePage.ts |
+| Element Utilities | Get CSS Value | Returns CSS property | BasePage.ts |
+| Element Utilities | Is Visible | Checks visibility | BasePage.ts |
+| Element Utilities | Is Enabled | Checks enabled state | BasePage.ts |
+| Element Utilities | Is Checked | Checks checkbox/radio state | BasePage.ts |
+| Form Utilities | Fill Input | Generic text input | BasePage.ts |
+| Form Utilities | Clear Input | Clears text field | BasePage.ts |
+| Form Utilities | Select Dropdown | Select by value/label/index | BasePage.ts |
+| Form Utilities | Upload File | Upload file to input | BasePage.ts |
+| Form Utilities | Date Picker | Generic date selection utility | BasePage.ts |
+| Form Utilities | Drag and Drop | Drag source to target | BasePage.ts |
+| Screenshot Utilities | Capture Screenshot | Capture page or element screenshot | BasePage.ts |
+| Screenshot Utilities | Capture on Failure | Auto screenshot on failures | BasePage.ts |
+| Alert Utilities | Accept Alert | Accept browser alert | BasePage.ts |
+| Alert Utilities | Dismiss Alert | Dismiss browser alert | BasePage.ts |
+| Alert Utilities | Get Alert Message | Returns alert text | BasePage.ts |
+| Frame Utilities | Switch to Frame | Enter iframe | BasePage.ts |
+| Frame Utilities | Exit Frame | Return to main page | BasePage.ts |
+| API Utilities | Read Environment Variable | Reads config values | ConfigUtil.ts |
+| Logging | Log Info | Information logging | Logger.ts |
+| Logging | Log Warning | Warning logging | Logger.ts |
+| Logging | Log Error | Error logging | Logger.ts |
+| Logging | Log Step | Test execution step logging | Logger.ts |
+| String Utilities | Compare Strings | Compares expected vs actual | StringUtil.ts |
+| String Utilities | Trim String | Removes leading/trailing spaces | StringUtil.ts |
+| String Utilities | Get String Before Delimiter | Returns text before ":" ";" "-" etc. | StringUtil.ts |
+| String Utilities | Get String After Delimiter | Returns text after delimiter | StringUtil.ts |
+| String Utilities | Ignore Case Compare | Case-insensitive comparison | StringUtil.ts |
+| String Utilities | Remove Special Characters | Cleans text | StringUtil.ts |
+| String Utilities | Contains Text | Checks substring | StringUtil.ts |
+| String Utilities | Convert to Title Case | Converts string format | StringUtil.ts |
+| Date Utilities | Get Current Date | Returns today's date | DateUtil.ts |
+| Date Utilities | Format Date | Converts date formats | DateUtil.ts |
+| Date Utilities | Add Days | Adds days to date | DateUtil.ts |
+| Date Utilities | Compare Dates | Date comparison | DateUtil.ts |
+| Date Utilities | Future/Past Date | Returns calculated date | DateUtil.ts |
+| Number Utilities | Parse Currency | Removes currency symbols | NumberUtil.ts |
+| Number Utilities | Format Number | Number formatting | NumberUtil.ts |
+| Number Utilities | Round Decimal | Decimal rounding | NumberUtil.ts |
+| File Utilities | Read JSON | Reads JSON files | FileUtil.ts |
+| File Utilities | Read CSV | Reads CSV data | FileUtil.ts |
+| File Utilities | Read Excel | Reads Excel sheets | ExcelUtil.ts |
+| File Utilities | Write JSON | Writes JSON output | FileUtil.ts |
+| Random Data | Random Email | Generates unique email | DataGenerator.ts |
+| Random Data | Random Name | Generates names | DataGenerator.ts |
+| Random Data | Random Mobile Number | Generates phone number | DataGenerator.ts |
+| Random Data | Random Password | Generates secure password | DataGenerator.ts |
+| Validation | Verify URL | URL validation | AssertionUtil.ts |
+| Validation | Verify Title | Page title validation | AssertionUtil.ts |
+| Validation | Verify Text | Text comparison | AssertionUtil.ts |
+| Validation | Verify Element Count | Count validation | AssertionUtil.ts |
