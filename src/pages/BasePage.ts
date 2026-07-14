@@ -1,7 +1,8 @@
 import { Page, Locator, expect } from "@playwright/test";
 
 // Already have this — click opens new tab, returns new Page
-export class basepage {
+
+export abstract class BasePage {
     // protected — subclasses (LoginPage, DashboardPage etc.) can access this.page
   // private would block child classes from using it
   // public would expose it to tests — we never want that
@@ -11,6 +12,9 @@ export class basepage {
     this.page= page;
     }
 
+  async goto(path: string): Promise<void> {
+    await this.page.goto(path);
+  }
 
     // ─── Text utilities ─────────────
 
