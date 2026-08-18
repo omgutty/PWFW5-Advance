@@ -62,15 +62,15 @@ test.describe('@PO @Smoke Login Feature',()=>{
         })
     })
 
-    // test('should show error invalid credentials ',async ({loginModule })=>{
-    //     await test.step('Attempt logging in with invalid password',async ()=>{
-    //        const errorText= await loginModule.attemptInvalidLogin
-    //             ( 'standard_user',
-    //             'wrong_password');
-    //         expect(errorText).toContain('Username and password do not match');
-    //     });
+    test('should show error invalid credentials ',async ({loginModule })=>{
+        await test.step('Attempt logging in with invalid password',async ()=>{
+           const errorText= await loginModule.attemptInvalidLogin
+                ( 'standard_user',
+                'wrong_password');
+            expect(errorText).toContain('Username and password do not match');
+        });
         
-    // })
+    })
 });
 
 // ─── Data Driven Tests ────────────────────────────────────────────────────────
