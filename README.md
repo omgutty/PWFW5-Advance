@@ -27,11 +27,16 @@ For a comprehensive visual architecture guide, see:
 
 - **Page Object Model (POM)** - Clean separation of test logic and page interactions
 - **Module Pattern** - Business logic layer for complex workflows
-- **API Testing Layer** - REST API testing with retry support
+- **Self-Healing Locators** - Automatic fallback selectors with healing report
+- **API Testing Layer** - REST API testing with retry support (PostsApi / JSONPlaceholder)
+- **Hybrid Testing** - API setup + UI validation patterns
 - **Custom Fixtures** - Pre-authenticated sessions and enhanced page handling
-- **Multi-Browser Support** - Chrome, Firefox, Safari, and Mobile Chrome
+- **Custom TTA Reporter** - Real-time branded HTML report
+- **Multi-Browser Support** - Chrome, Firefox, Safari, and Mobile Chrome (project configs)
 - **TypeScript** - Full type safety and IntelliSense support
 - **Parallel Execution** - Run tests in parallel across browsers
+- **Rule Engine** - Architecture and placement rule validation
+- **Docker + CI/CD** - Containerized execution with GitHub Actions sharding
 
 ---
 
@@ -41,39 +46,49 @@ For a comprehensive visual architecture guide, see:
 Playwright_Framework/
 ├── src/
 │   ├── api/                    # API testing layer
-│   │   ├── AuthApi.ts          # Authentication API methods
-│   │   ├── ProductApi.ts       # Product API methods
-│   │   ├── OrderApi.ts         # Order API methods
+│   │   ├── PostsApi.ts         # Posts API methods (JSONPlaceholder)
 │   │   └── index.ts            # API exports
 │   ├── config/
 │   │   └── index.ts            # Configuration & test data constants
 │   ├── fixtures/
-│   │   ├── auth.fixture.ts     # Pre-authenticated session fixtures
+│   │   ├── global.teardown.ts  # Runs once after all tests (healing report)
 │   │   └── index.ts            # Main fixtures with page objects & modules
 │   ├── modules/                # Business logic layer
 │   │   ├── LoginModule.ts      # Login workflows
-│   │   ├── ProductModule.ts    # Product workflows
+│   │   ├── LoginModule2.ts     # Alternate login workflow (LoginPage2)
+│   │   ├── ProductModule.ts    # Product/cart workflows
 │   │   ├── CheckoutModule.ts   # Checkout workflows
+│   │   ├── SignInModule.ts     # Sign-in workflow (BasePage based)
 │   │   └── index.ts            # Module exports
 │   ├── pages/                  # Page Object Model layer
-│   │   ├── LoginPage.ts        # Login page locators & actions
+│   │   ├── BasePage.ts         # Abstract base page (shared utilities)
+│   │   ├── LoginPage.ts        # Login page locators & actions (self-healing)
+│   │   ├── LoginPage2.ts       # Alternate login page
 │   │   ├── HomePage.ts         # Home page locators & actions
-│   │   ├── ProductPage.ts      # Product page locators & actions
-│   │   ├── CheckoutPage.ts     # Checkout page locators & actions
+│   │   ├── InventoryPage.ts    # Product list page locators & actions
+│   │   ├── CartPage.ts         # Cart page locators & actions
+│   │   ├── CheckoutPage.ts     # Checkout page locators & actions (self-healing)
+│   │   ├── SignInPage.ts       # Sign-in page (extends BasePage)
 │   │   └── index.ts            # Page exports
 │   ├── testdata/
 │   │   ├── users.json          # User test data
 │   │   ├── products.json       # Product test data
 │   │   └── types.ts            # TypeScript type definitions
 │   ├── tests/
-│   │   ├── login.spec.ts       # Login test specifications
-│   │   ├── product.spec.ts     # Product test specifications
-│   │   └── checkout.spec.ts    # Checkout test specifications
+│   │   ├── login.spec.ts       # Login test specifications (data-driven)
+│   │   ├── login2.spec.ts      # Login tests using LoginModule2
+│   │   ├── inventory2.spec.ts  # Inventory/product list tests
+│   │   ├── checkout.spec.ts    # Checkout test specifications
+│   │   ├── api.spec.ts         # Pure API tests (PostsApi)
+│   │   ├── hybrid.spec.ts      # API + UI hybrid patterns
+│   │   └── apitestPractice.spec.ts  # API practice tests
 │   └── utils/
 │       ├── Logger.ts           # Structured logging utility
 │       ├── WaitHelper.ts       # Custom wait conditions
 │       ├── DataGenerator.ts    # Random test data generation
 │       ├── ApiHelper.ts        # HTTP request helper with retry
+│       ├── SelfHealingLocator.ts  # Self-healing locator fallbacks
+│       ├── CustomTTAReporter.ts   # Custom TTA HTML reporter
 │       └── index.ts            # Utility exports
 ├── playwright.config.ts        # Playwright configuration
 ├── tsconfig.json               # TypeScript configuration
@@ -93,7 +108,7 @@ The framework follows a **3-layer architecture** that promotes separation of con
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    LAYER 3: TESTS                           │
-│  (Test Specifications - login.spec.ts, product.spec.ts)     │
+│  (Test Specifications - login.spec.ts, checkout.spec.ts)    │
 │  • Test scenarios and assertions                            │
 │  • Uses Modules for business workflows                      │
 └─────────────────────────────────────────────────────────────┘
@@ -101,7 +116,8 @@ The framework follows a **3-layer architecture** that promotes separation of con
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                   LAYER 2: MODULES                          │
-│  (Business Logic - LoginModule, ProductModule, etc.)        │
+│  (Business Logic - LoginModule, ProductModule,             │
+│   CheckoutModule, etc.)                                     │
 │  • Complex workflows and business logic                     │
 │  • Orchestrates multiple Page actions                       │
 └─────────────────────────────────────────────────────────────┘
@@ -109,7 +125,8 @@ The framework follows a **3-layer architecture** that promotes separation of con
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                    LAYER 1: PAGES                           │
-│  (Page Objects - LoginPage, ProductPage, etc.)              │
+│  (Page Objects - LoginPage, InventoryPage, CartPage,        │
+│   CheckoutPage, etc.)                                       │
 │  • Locators defined as arrow functions                      │
 │  • Basic UI actions (click, fill, navigate)                 │
 │  • No business logic                                        │
@@ -172,12 +189,15 @@ API_TIMEOUT=30000
 
 ## 🧪 Test Coverage
 
-| Test File          | Test Cases                      | Description                     |
-| ------------------ | ------------------------------- | ------------------------------- |
-| `login.spec.ts`    | 11                              | Login, logout, validation       |
-| `product.spec.ts`  | 15                              | Product details, cart, wishlist |
-| `checkout.spec.ts` | 10                              | Checkout flow, promo codes      |
-| **Total**          | **36 tests × 4 browsers = 144** |                                 |
+| Test File              | Test Cases                   | Description                          |
+| ---------------------- | ---------------------------- | ------------------------------------ |
+| `login.spec.ts`        | 11                           | Login, logout, validation (data-driven) |
+| `login2.spec.ts`       | 1                            | Login via LoginModule2               |
+| `inventory2.spec.ts`   | 15                           | Product details, cart, sorting       |
+| `checkout.spec.ts`     | 9                            | Checkout flow, validation, totals    |
+| `api.spec.ts`          | 8                            | Pure API tests (PostsApi)            |
+| `hybrid.spec.ts`       | 8                            | API + UI hybrid patterns             |
+| **Total**              | **~52 tests**                | × 1 active browser (chromium)        |
 
 ---
 
@@ -189,7 +209,7 @@ API_TIMEOUT=30000
 flowchart TB
     subgraph Tests["Layer 3: Test Specifications"]
         T1[login.spec.ts]
-        T2[product.spec.ts]
+        T2[inventory2.spec.ts]
         T3[checkout.spec.ts]
     end
 
@@ -201,8 +221,8 @@ flowchart TB
 
     subgraph Pages["Layer 1: Page Objects"]
         P1[LoginPage]
-        P2[HomePage]
-        P3[ProductPage]
+        P2[InventoryPage]
+        P3[CartPage]
         P4[CheckoutPage]
     end
 
@@ -218,11 +238,10 @@ flowchart TB
     T3 --> M3
 
     M1 --> P1
-    M1 --> P2
-    M2 --> P3
     M2 --> P2
-    M3 --> P4
+    M2 --> P3
     M3 --> P3
+    M3 --> P4
 
     Tests --> F
     Tests --> U
@@ -318,13 +337,22 @@ test("with page objects", async ({ loginPage, homePage }) => {
 ### Using API Layer
 
 ```typescript
-import { AuthApi, ProductApi } from "../api";
+import { PostsApi } from "../api";
 
-const authApi = new AuthApi();
-const token = await authApi.login("user@example.com", "password");
+// postsApi fixture provides a ready-to-use client (JSONPlaceholder)
+test("fetch all posts", async ({ postsApi }) => {
+  const posts = await postsApi.getallposts();
+  expect(posts).toHaveLength(100);
+});
 
-const productApi = new ProductApi();
-const products = await productApi.getProducts(token);
+test("create a post", async ({ postsApi }) => {
+  const created = await postsApi.createPost({
+    userId: 1,
+    title: "My Automation Test Post",
+    body: "Created by Playwright API test",
+  });
+  expect(created.id).toBeDefined();
+});
 ```
 
 ---
@@ -559,41 +587,41 @@ The framework includes pre-configured GitHub Actions workflows:
 
 ## 🔧 Code Quality Tools
 
-### ESLint + Prettier
+### TypeScript Type Checking
 
 ```bash
-# Run linting
+# Run type checking (strict mode)
 npm run lint
-
-# Fix linting issues
-npm run lint:fix
-
-# Format code
-npm run format
-
-# Check formatting
-npm run format:check
 ```
 
-### Configuration Files
+`npm run lint` runs `tsc --noEmit` — full strict-mode type checking across `src/**` and `playwright.config.ts`. This catches null access, implicit any, and type mismatches at compile time.
 
-| File | Purpose |
-|------|---------|
-| `.eslintrc.json` | ESLint rules (TypeScript + Playwright) |
-| `.prettierrc` | Code formatting rules |
-| `.editorconfig` | Editor settings consistency |
+### Framework Rule Engine
 
-### Husky + Commitlint
-
-Pre-commit hooks ensure code quality:
+The rule engine validates architecture and file placement:
 
 ```bash
-# Pre-commit hook runs:
-- ESLint on staged files
-- TypeScript type checking
-- Framework rule engine on staged files
+# Check all files
+npm run rules:check
 
-# Commit message validation:
+# Check only changed files
+npm run rules:changed
+
+# Check only staged files
+npm run rules:staged
+```
+
+The rule engine (`scripts/rule-engine.js` + `rules/framework-rule-engine.json`) enforces:
+
+- **Placement rules** — `*Page.ts` → `src/pages`, `*Module.ts` → `src/modules`, `*.spec.ts` → `src/tests`, `*Api.ts` → `src/api`, utilities → `src/utils`
+- **Content rules** — locators as arrow functions in pages, no direct `.locator()` in modules, `test.describe()` + tags + `test.step()` in specs
+- **Warning rules** — prefer `Logger` over `console.log`
+
+### Commit Message Convention
+
+The included `commit-and-push.ps1` / `commit-and-push.bat` scripts help follow conventional commits:
+
+```bash
 # Format: type(scope): description
 # Example: feat(login): add remember me functionality
 ```
@@ -713,10 +741,11 @@ This framework is optimized for AI-assisted development:
 
 | Tool | Configuration File | Description |
 |------|-------------------|-------------|
-| **Augment Code** | `.augment/rules/` | Framework rules + code standards |
-| **GitHub Copilot** | `.github/copilot-instructions.md` | Copilot-specific instructions |
-| **Cursor AI** | `.cursorrules` | Cursor editor rules |
-| **Windsurf AI** | `.windsurfrules` | Windsurf editor rules |
+| **GitHub Copilot** | `.github/instructions/copilot-instructions.md` | Copilot-specific instructions |
+| **AI Agents** | `.github/instructions/`, `.github/prompts/` | Agent instruction templates + prompt guides |
+| **Rule Engine** | `rules/framework-rule-engine.json` | Architecture + placement rules for AI |
+| **AI Agent Docs** | `docs/ai-agents/` | Planner/Generator/Healer agent guides |
+| **Skill Pack** | `skills/playwright-ai-mcp-tutor/` | Reusable tutor skill bundle |
 
 AI assistants are trained to:
 - Follow 3-layer architecture (Pages → Modules → Tests)
@@ -743,37 +772,24 @@ AI assistants are trained to:
 Playwright_Framework/
 ├── .github/
 │   ├── workflows/
-│   │   ├── playwright.yml         # Main CI workflow
+│   │   ├── playwright.yml         # Main CI workflow (4-way sharding)
 │   │   └── smoke-tests.yml        # PR smoke tests
-│   └── copilot-instructions.md    # GitHub Copilot rules
-├── .augment/rules/
-│   ├── framework-rules.md         # Page Object & Module patterns
-│   └── code-standards.md          # Coding standards
-├── .husky/
-│   ├── pre-commit                 # Pre-commit hooks
-│   └── commit-msg                 # Commit message validation
-├── docs/
-│   ├── images/
-│   │   ├── arch.png               # Architecture diagram
-│   │   └── report.png             # Reporter screenshot
-│   ├── ARCHITECTURE.html          # Visual architecture
-│   ├── QUICK_REFERENCE.md         # Commands & best practices
-│   └── ai-agents/                 # AI agents + MCP tutorial docs
+│   └── instructions/              # AI agent instruction templates
 ├── rules/
+│   ├── framework-rules.md         # Page Object & Module patterns
+│   ├── code-standards.md          # Coding standards
 │   └── framework-rule-engine.json # Architecture and placement rules
 ├── scripts/
 │   └── rule-engine.js             # Rule engine validator script
 ├── skills/
 │   └── playwright-ai-mcp-tutor/   # Reusable tutor skill pack
+├── docs/
+│   ├── ARCHITECTURE.html          # Visual architecture
+│   ├── QUICK_REFERENCE.md         # Commands & best practices
+│   └── ai-agents/                 # AI agents + MCP tutorial docs
 ├── Dockerfile                     # Docker image config
 ├── docker-compose.yml             # Docker Compose with sharding
 ├── Jenkinsfile                    # Jenkins pipeline
-├── .eslintrc.json                 # ESLint configuration
-├── .prettierrc                    # Prettier configuration
-├── .editorconfig                  # Editor configuration
-├── .cursorrules                   # Cursor AI rules
-├── .windsurfrules                 # Windsurf AI rules
-├── commitlint.config.js           # Commit message rules
 └── playwright.config.ts           # Playwright configuration
 ```
 
@@ -1116,97 +1132,26 @@ STAGE 3 — After tests finish (--rm used):
     (image stays until you manually remove it)
 
 
-Cavemen installation 
-Install Only for VS Code Copilot
-Navigate to your project folder:
-cd D:\playwright\my-autoheal-project
-Then run:
-### Caveman AI Assistant Installation
+## 🛠️ Utilities Reference
 
-To enable the Caveman AI assistant features for compressed communication, run the following command in your terminal:
+The framework's actual utilities live in `src/utils/`:
 
-```bash
-npx -y github:JuliusBrussee/caveman -- --only copilot --with-init
-```
+| Utility | File | Purpose |
+|---------|------|---------|
+| `Logger` | `Logger.ts` | Structured logging with levels (DEBUG/INFO/WARN/ERROR), step/test lifecycle helpers |
+| `ApiHelper` | `ApiHelper.ts` | Typed HTTP client (GET/POST/PUT/DELETE/PATCH) with retry + polling |
+| `WaitHelper` | `WaitHelper.ts` | Semantic waits: URL/navigation, element states, `pollUntil` for custom conditions |
+| `DataGenerator` | `DataGenerator.ts` | Unique emails, usernames, random strings/numbers, random post data |
+| `SelfHealingLocator` | `SelfHealingLocator.ts` | Fallback selector chains + healing event log/report |
+| `CustomTTAReporter` | `CustomTTAReporter.ts` | Real-time branded HTML report |
 
-This command installs the necessary configurations to integrate the Caveman skills into your Copilot environment, allowing for more concise and efficient interactions.
+**Base page helpers** (`src/pages/BasePage.ts` — abstract class):
 
--------------------------------
-Two categories of utilities — important distinction
-Before adding anything, an architect separates utilities into two buckets:
-# Playwright TypeScript Framework - Utility Methods
+| Method | Purpose |
+|--------|---------|
+| `goto(path)` | Navigate to a path |
+| `gettext(locator)` | Get trimmed inner text |
+| `getalltext(locator)` | Get all inner texts from a collection |
+| `getinputvalue(locator)` | Get input field value |
 
-## Utility Organization
-
-| Category | Utility Method | Purpose | Suggested File |
-|-----------|---------------|---------|----------------|
-| Browser Navigation | Open Link in New Tab | Handles links opening in a new tab | BasePage.ts |
-| Browser Navigation | Open Link in New Window | Handles links opening in a new window | BasePage.ts |
-| Browser Navigation | Switch to New Tab | Switches control to newly opened tab | BasePage.ts |
-| Browser Navigation | Switch to Parent Tab | Returns control to parent tab | BasePage.ts |
-| Browser Navigation | Close Current Tab | Closes current tab and returns to parent | BasePage.ts |
-| Browser Navigation | Refresh Page | Refreshes current page | BasePage.ts |
-| Browser Navigation | Navigate Back / Forward | Browser navigation | BasePage.ts |
-| Wait Utilities | Wait for Loader | Wait until loader/spinner disappears | BasePage.ts |
-| Wait Utilities | Wait for Element | Wait for element visibility | BasePage.ts |
-| Wait Utilities | Wait for URL | Wait until URL changes | BasePage.ts |
-| Wait Utilities | Wait for Download | Wait for file download | BasePage.ts |
-| Wait Utilities | Wait for Popup | Wait for popup window | BasePage.ts |
-| Element Utilities | Click | Generic click wrapper | BasePage.ts |
-| Element Utilities | Force Click | Click when normal click fails | BasePage.ts |
-| Element Utilities | Double Click | Double click element | BasePage.ts |
-| Element Utilities | Right Click | Context click | BasePage.ts |
-| Element Utilities | Hover | Mouse hover action | BasePage.ts |
-| Element Utilities | Scroll Into View | Scroll element into viewport | BasePage.ts |
-| Element Utilities | Get Text | Returns element text | BasePage.ts |
-| Element Utilities | Get Attribute | Returns attribute value | BasePage.ts |
-| Element Utilities | Get CSS Value | Returns CSS property | BasePage.ts |
-| Element Utilities | Is Visible | Checks visibility | BasePage.ts |
-| Element Utilities | Is Enabled | Checks enabled state | BasePage.ts |
-| Element Utilities | Is Checked | Checks checkbox/radio state | BasePage.ts |
-| Form Utilities | Fill Input | Generic text input | BasePage.ts |
-| Form Utilities | Clear Input | Clears text field | BasePage.ts |
-| Form Utilities | Select Dropdown | Select by value/label/index | BasePage.ts |
-| Form Utilities | Upload File | Upload file to input | BasePage.ts |
-| Form Utilities | Date Picker | Generic date selection utility | BasePage.ts |
-| Form Utilities | Drag and Drop | Drag source to target | BasePage.ts |
-| Screenshot Utilities | Capture Screenshot | Capture page or element screenshot | BasePage.ts |
-| Screenshot Utilities | Capture on Failure | Auto screenshot on failures | BasePage.ts |
-| Alert Utilities | Accept Alert | Accept browser alert | BasePage.ts |
-| Alert Utilities | Dismiss Alert | Dismiss browser alert | BasePage.ts |
-| Alert Utilities | Get Alert Message | Returns alert text | BasePage.ts |
-| Frame Utilities | Switch to Frame | Enter iframe | BasePage.ts |
-| Frame Utilities | Exit Frame | Return to main page | BasePage.ts |
-| API Utilities | Read Environment Variable | Reads config values | ConfigUtil.ts |
-| Logging | Log Info | Information logging | Logger.ts |
-| Logging | Log Warning | Warning logging | Logger.ts |
-| Logging | Log Error | Error logging | Logger.ts |
-| Logging | Log Step | Test execution step logging | Logger.ts |
-| String Utilities | Compare Strings | Compares expected vs actual | StringUtil.ts |
-| String Utilities | Trim String | Removes leading/trailing spaces | StringUtil.ts |
-| String Utilities | Get String Before Delimiter | Returns text before ":" ";" "-" etc. | StringUtil.ts |
-| String Utilities | Get String After Delimiter | Returns text after delimiter | StringUtil.ts |
-| String Utilities | Ignore Case Compare | Case-insensitive comparison | StringUtil.ts |
-| String Utilities | Remove Special Characters | Cleans text | StringUtil.ts |
-| String Utilities | Contains Text | Checks substring | StringUtil.ts |
-| String Utilities | Convert to Title Case | Converts string format | StringUtil.ts |
-| Date Utilities | Get Current Date | Returns today's date | DateUtil.ts |
-| Date Utilities | Format Date | Converts date formats | DateUtil.ts |
-| Date Utilities | Add Days | Adds days to date | DateUtil.ts |
-| Date Utilities | Compare Dates | Date comparison | DateUtil.ts |
-| Date Utilities | Future/Past Date | Returns calculated date | DateUtil.ts |
-| Number Utilities | Parse Currency | Removes currency symbols | NumberUtil.ts |
-| Number Utilities | Format Number | Number formatting | NumberUtil.ts |
-| Number Utilities | Round Decimal | Decimal rounding | NumberUtil.ts |
-| File Utilities | Read JSON | Reads JSON files | FileUtil.ts |
-| File Utilities | Read CSV | Reads CSV data | FileUtil.ts |
-| File Utilities | Read Excel | Reads Excel sheets | ExcelUtil.ts |
-| File Utilities | Write JSON | Writes JSON output | FileUtil.ts |
-| Random Data | Random Email | Generates unique email | DataGenerator.ts |
-| Random Data | Random Name | Generates names | DataGenerator.ts |
-| Random Data | Random Mobile Number | Generates phone number | DataGenerator.ts |
-| Random Data | Random Password | Generates secure password | DataGenerator.ts |
-| Validation | Verify URL | URL validation | AssertionUtil.ts |
-| Validation | Verify Title | Page title validation | AssertionUtil.ts |
-| Validation | Verify Text | Text comparison | AssertionUtil.ts |
-| Validation | Verify Element Count | Count validation | AssertionUtil.ts |
+`SignInPage` extends `BasePage` to demonstrate the inheritance pattern.
