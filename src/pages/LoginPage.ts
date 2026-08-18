@@ -74,6 +74,7 @@ export class LoginPage{
     // Business logic belongs in Modules.
 
     async navigate():Promise<void>{
+        
         await this.page.goto('/',{ waitUntil: 'domcontentloaded' })
     }
 
