@@ -1,10 +1,10 @@
 import {APIRequestContext, test as base, Page,request} from '@playwright/test';
 import { config } from '../config';
 //pages
-import { LoginPage ,CartPage,InventoryPage} from '../pages';
+import { LoginPage ,CartPage,InventoryPage,CheckoutPage } from '../pages';
 
 //modules
-import { LoginModule ,ProductModule} from '../modules';
+import { CheckoutModule, LoginModule ,ProductModule} from '../modules';
 
 //api
 import { PostsApi } from '../api';
@@ -23,11 +23,11 @@ export type TestFixtures = {
     loginPage: LoginPage;
     inventoryPage: InventoryPage;
     cartPage: CartPage;
-   
+    checkoutPage:CheckoutPage
     loginModule: LoginModule;
     loginModule2:LoginModule2;
     productModule: ProductModule;
-
+    checkoutModule: CheckoutModule;
     postsApi: PostsApi;
     apiContext: APIRequestContext;
     
@@ -62,8 +62,15 @@ export const test = base.extend<TestFixtures>({
     cartPage: async ({ page }, use) => {
         await use(new CartPage(page));
     },
+    checkoutPage: async ({ page }, use) => {
+        await use(new CheckoutPage(page));
+    },
+
     productModule: async ({ page }, use) => {
         await use(new ProductModule(page));
+    },
+    checkoutModule: async ({ page }, use) => {
+        await use(new CheckoutModule(page));
     },
 
     // ─── Standalone API context ───────────────────────────────────────────────

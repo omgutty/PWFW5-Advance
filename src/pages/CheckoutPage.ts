@@ -1,4 +1,4 @@
-import { Expect, Page } from "@playwright/test";
+import { expect, Expect, Page } from "@playwright/test";
 import { SelfHealingLocator  } from "../utils";
 
 // ─── Why CheckoutPage spans multiple URLs ─────────────────────────────────────
@@ -25,10 +25,10 @@ export class CheckoutPage{
 
     //----- LOCATORS - Your Cart 
     //if product added to cart
-    remove= ()=>this.page.getByRole('button', { name: 'Remove' })
-    continuewShopping= ()=>this.page.getByRole('button', { name: 'Continue Shopping' });
-    checkoutbutton= ()=>this.page.getByRole('button', { name: 'Checkout' })
-    cartitemtitle=()=>this.page.locator("#item_4_title_link")
+    // remove= ()=>this.page.getByRole('button', { name: 'Remove' })
+    // continuewShopping= ()=>this.page.getByRole('button', { name: 'Continue Shopping' });
+    // checkoutbutton= ()=>this.page.getByRole('button', { name: 'Checkout' })
+    // cartitemtitle=()=>this.page.locator("#item_4_title_link")
 
     // ─── LOCATORS — Step 1 (Customer Information) ─────────────────────────────
 
@@ -91,7 +91,133 @@ export class CheckoutPage{
     };
 
     //-------Action step 1------------
-     
+    async navigateToCheckout():Promise<void>{
+        await this.page.goto("/checkout-step-one.html", {waitUntil:'domcontentloaded'})
+    }
+
+    async enterfirstName(firstName:string,testName?:string ):Promise<void>{
+        await this.healer.fill('first name input', this.selectors.firstName,firstName,{testName}) 
+    }
+
+    async enterlastName(lastName:string, testName?:string):Promise<void>{
+        await this.healer.fill('last name input', this.selectors.lastName,lastName,{testName});
+    }
+
+     async enterZipCode(
+        zipCode: string,
+        testName?: string
+    ): Promise<void> {
+        await this.healer.fill(
+            'zip code input',
+            this.selectors.zipCode,
+            zipCode,
+            { testName }
+        );
+    }
+
+    async clickContinue(testName?: string): Promise<void> {
+        await this.healer.click(
+            'continue button',
+            this.selectors.continueButton,
+            { testName }
+        );
+    }
+
+    async clickCancel(): Promise<void> {
+        await this.cancelButton().click();
+    }
+
+    async getErrorMessage(): Promise<string> {
+        await this.errorMessage().waitFor({ state: 'visible' });
+        return (await this.errorMessage().textContent()) ?? '';
+    }
+
+      // ─── ACTIONS — Step 2 ─────────────────────────────────────────────────────
+
+    async clickFinish(testName?: string): Promise<void> {
+        await this.healer.click(
+            'finish button',
+            this.selectors.finishButton,
+            { testName }
+        );
+    }
+
+    async clickBackHome():Promise<void>{
+        await this.backHomeButton().click();
+    }
+
+    async getItemTotal():Promise<number>{
+        const text= await this.itemTotalLabel().textContent() ?? '';
+        // Text format: "Tax: $2.40"
+        return parseFloat(text.replace(/[^0-9.]/g,''))
+    }
+
+      async getTax(): Promise<number> {
+        const text = await this.taxLabel().textContent() ?? '';
+        // Text format: "Tax: $2.40"
+        return parseFloat(text.replace(/[^0-9.]/g, ''));
+    }
+
+     async getTotal(): Promise<number> {
+        const text = await this.totalLabel().textContent() ?? '';
+        // Text format: "Total: $32.39"
+        return parseFloat(text.replace(/[^0-9.]/g, ''));
+    }
+
+     async getSummaryProductNames(): Promise<string[]> {
+        return await this.summaryItemNames().allTextContents();
+    }
+
+    async getConfirmationHeader(): Promise<string> {
+        return (await this.confirmationHeader().textContent()) ?? '';
+    }
+
+
+    //Assertions---------------
+
+    async expecteonStepOne():Promise<void>{
+        await expect(this.page).toHaveURL('/checkout-step-one.html');
+        await expect(this.continueButton()).toBeVisible();
+    }
+
+    async expectOnStepTwo():Promise<void>{
+        await expect(this.page).toHaveURL('/checkout-step-two.html');
+        await expect(this.finishButton()).toBeVisible();
+    }
+
+     async expectOnConfirmationPage(): Promise<void> {
+        await expect(this.page).toHaveURL(/checkout-complete/);
+        await expect(this.confirmationHeader()).toBeVisible();
+    }
+
+    async expectConfirmationMessage(expectedText: string): Promise<void> {
+        await expect(this.confirmationHeader()).toContainText(expectedText);
+    }
+
+    async expectErrorVisible(): Promise<void> {
+        await expect(this.errorMessage()).toBeVisible();
+    }
+
+    async expectErrorContains(text: string): Promise<void> {
+        await expect(this.errorMessage()).toContainText(text);
+    }
+
+    async expectProductInSummary(productName: string): Promise<void> {
+        await expect(
+            this.summaryItemNames().filter({ hasText: productName })
+        ).toBeVisible();
+    }
+
+    async expectTotalCorrect(): Promise<void> {
+        // Business rule: itemTotal + tax = total
+        // Floating point safe comparison
+        const itemTotal = await this.getItemTotal();
+        const tax = await this.getTax();
+        const total = await this.getTotal();
+        const expectedTotal = parseFloat((itemTotal + tax).toFixed(2));
+        expect(total).toBe(expectedTotal);
+    }
+
 
 
 }

@@ -51,7 +51,7 @@ export class InventoryPage{
         this.page.goto('/inventory.html',{waitUntil:'domcontentloaded'});
     }
 
-    async addToCardByName(productname:string):Promise<void>{
+    async addToCartByName(productname:string):Promise<void>{
         const slug= this.slugify(productname);
         await this.addToCardButton(slug).click();
        //await this.productByName(slug).click();

@@ -46,5 +46,38 @@
         "username": "locked_out_user",
         "password": "secret_sauce",
         "expectedError": "Epic sadface: Sorry, this user has been locked out."
-    }
+    },
+    "checkoutCustomers": [
+        {
+            "id": "customer-001",
+            "firstName": "John",
+            "lastName": "Doe",
+            "zipCode": "10001",
+            "scenario": "valid"
+        },
+        {
+            "id": "customer-002",
+            "firstName": "",
+            "lastName": "Doe",
+            "zipCode": "10001",
+            "scenario": "missing_firstname",
+            "expectedError": "Error: First Name is required"
+        },
+        {
+            "id": "customer-003",
+            "firstName": "John",
+            "lastName": "",
+            "zipCode": "10001",
+            "scenario": "missing_lastname",
+            "expectedError": "Error: Last Name is required"
+        },
+        {
+            "id": "customer-004",
+            "firstName": "John",
+            "lastName": "Doe",
+            "zipCode": "",
+            "scenario": "missing_zipcode",
+            "expectedError": "Error: Postal Code is required"
+        }
+    ]
 }

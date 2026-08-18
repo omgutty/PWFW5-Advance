@@ -29,7 +29,7 @@ export class ProductModule{
         await this.inventoryPage.navigation()
 
         this.logger.step(2, `Adding the ${producname} to Cart`)
-        await this.inventoryPage.addToCardByName(producname);
+        await this.inventoryPage.addToCartByName(producname);
 
         this.logger.step(3, 'verify cart count updated');
         const badgecount= await this.inventoryPage.getCartCount()
@@ -48,7 +48,7 @@ export class ProductModule{
 
             for(let i=0;i<productname.length;i++){
                 this.logger.step(i+2,`adding product to cart ${productname[i]}`);
-                await this.inventoryPage.addToCardByName(productname[i])
+                await this.inventoryPage.addToCartByName(productname[i])
             }
             const cartCount = await this.inventoryPage.getCartCount();
             this.logger.info(`Added ${productname.length} products. Cart count: ${cartCount}`);

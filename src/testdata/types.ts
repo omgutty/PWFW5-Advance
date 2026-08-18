@@ -51,3 +51,33 @@ export interface ProductsData {
     products: Product[];
     sortOptions: string[];
 }
+
+// ─── NEW: Checkout customer types ─────────────────────────────────────────────
+
+export interface CheckoutCustomerData {
+    id: string;
+    firstName: string;
+    lastName: string;
+    zipCode: string;
+    scenario: string;
+    expectedError?: string;
+}
+
+export interface UsersData {
+    validUsers: ValidUser[];
+    invalidUsers: InvalidUser[];
+    lockedUser: LockedUser;
+    checkoutCustomers: CheckoutCustomerData[];
+}
+
+export interface Product {
+    id: string;
+    name: string;
+    price: number;
+    category: string;
+}
+
+export interface ProductsData {
+    products: Product[];
+    sortOptions: string[];
+}
