@@ -28,7 +28,9 @@
     "docker:regression": "docker-compose up regression",
     "docker:clean": "docker-compose down && docker rmi my-playwright-framework",
     "lint": "tsc --noEmit",
-    "clean": "rmdir /s /q dist test-results playwright-report tta-report 2>nul || true"
+    "clean": "rmdir /s /q dist test-results playwright-report tta-report 2>nul || true",
+    "rules:check": "node scripts/rule-engine.js"
+
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",

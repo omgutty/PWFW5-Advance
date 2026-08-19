@@ -8,7 +8,6 @@ import { CheckoutModule, LoginModule ,ProductModule} from '../modules';
 
 //api
 import { PostsApi } from '../api';
-import { LoginModule2 } from '../modules/LoginModule2';
 
 // ─── TestFixtures Interface ──────────────────────────────────────────────────
 // This is the TYPE CONTRACT for all fixtures.
@@ -25,7 +24,6 @@ export type TestFixtures = {
     cartPage: CartPage;
     checkoutPage:CheckoutPage
     loginModule: LoginModule;
-    loginModule2:LoginModule2;
     productModule: ProductModule;
     checkoutModule: CheckoutModule;
     postsApi: PostsApi;
@@ -52,9 +50,6 @@ export const test = base.extend<TestFixtures>({
 
     loginModule: async ({page},use)=>{
         await  use(new LoginModule(page));
-    },
-    loginModule2: async ({page}, use )=>{
-        await use(new LoginModule2(page))
     },
     inventoryPage: async ({ page }, use) => {
         await use(new InventoryPage(page));
