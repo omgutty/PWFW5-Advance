@@ -801,3 +801,221 @@ Skills	"What reusable AI workflow should be followed?"
 Instructions	"What repository rules must every agent obey?"
 Prompts	"What reusable instructions can we give the agents?"
 Docs	"How do humans learn and understand the system?"
+
+---
+
+# 26. Completed: Playwright MCP Integration
+
+## Status
+
+The project-level `.mcp.json` was created and the Playwright MCP server is fully connected.
+
+## Configuration
+
+Project-level `.mcp.json` registers the server with project scope:
+
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "transport": "stdio",
+      "enabled": true,
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ]
+    }
+  }
+}
+```
+
+## Verification
+
+- `command-code mcp list` confirms the server registration:
+
+```text
+playwright | stdio | project | enabled
+```
+
+- A fresh Command Code session successfully loaded the MCP server.
+- Live Playwright MCP browser tools were confirmed available.
+- Browser navigation, snapshot, interaction, and diagnostic capabilities were verified end to end.
+
+---
+
+# 27. Completed: Healer Proof-of-Concept
+
+## Healer Responsibility
+
+The Healer follows a strict evidence-driven workflow:
+
+```text
+Observe → Diagnose → Classify → Fix → Verify
+```
+
+## Architecture-Aware Failure Classification
+
+The Healer classifies every failure by the layer that owns the fix:
+
+| Failure Type | Correct Layer | Example |
+|---|---|---|
+| Locator/selector failure | Page | Broken locator |
+| Workflow/timing failure | Module | Incorrect workflow/orchestration |
+| Assertion/test-intent failure | Test | Incorrect expected result |
+| Module/load/structural failure | Owning layer | Stale barrel export |
+| Application defect | No test patch | Report the application defect |
+
+## Real Healer Execution
+
+### Failure
+
+- Spec: `src/tests/login.spec.ts`
+- Initial result: Tests could not execute because of a module-resolution failure.
+
+### Root Cause
+
+`src/pages/index.ts` contained stale `SignInPage` import/export references after `SignInPage.ts` had intentionally been deleted.
+
+The import chain was:
+
+```text
+login.spec.ts
+→ fixtures/index.ts
+→ pages/index.ts
+→ missing SignInPage.ts
+→ module resolution failure
+→ test execution stopped before any test body ran.
+```
+
+The Healer correctly identified this as a **structural/load-time failure** rather than a locator failure.
+
+## Browser Evidence
+
+Playwright MCP was used to verify that SauceDemo itself was working:
+
+- Login page loaded successfully.
+- Username field was present.
+- Password field was present.
+- Login button was present.
+- `standard_user` / `secret_sauce` login succeeded.
+- Browser reached `/inventory.html`.
+- Therefore the application itself was not the root cause.
+
+## Minimal Healer Fix
+
+Only `src/pages/index.ts` was corrected:
+
+- Removed the stale `SignInPage` import reference.
+- Removed the stale `SignInPage` export reference.
+
+No Page Object, Module, Test, fixture architecture, or test intent was changed.
+
+## Verification
+
+```text
+npx tsc --noEmit
+→ PASS
+
+npm run rules:check
+→ FAILED because of pre-existing unrelated findings:
+  - InventoryPage.ts:81 rule-engine error
+  - 4 existing console.log warnings
+These were intentionally NOT modified.
+
+npx playwright test src/tests/login.spec.ts --project=chromium
+→ 10 passed
+→ 0 failed
+→ 0 skipped
+```
+
+---
+
+# 28. Self-Healing Locator Observation
+
+Recorded separately as evidence that the self-healing fallback mechanism is functioning.
+
+`LoginPage` currently has a deliberately problematic primary username selector containing trailing spaces:
+
+```text
+[data-test="username  "]
+```
+
+The selector fails and the `SelfHealingLocator` falls back to:
+
+```text
+#user-name
+```
+
+Tests still pass. This locator must NOT be changed as part of the Healer documentation update — it is intentional evidence of the fallback mechanism.
+
+---
+
+# 29. Healer Guardrails
+
+The Healer must always:
+
+- Never rewrite passing tests.
+- Never weaken assertions to make tests pass.
+- Never move logic between Pages, Modules, and Tests just to satisfy a failure.
+- Never modify the rule engine automatically.
+- Never modify unrelated practice/separate-project files.
+- Never mask an application defect by changing the test.
+- Always make the smallest possible code change.
+- Always verify with TypeScript + rule check + original failing test.
+- If the failure cannot be safely fixed within the architecture, stop and report.
+
+---
+
+# 30. End-to-End Workflow
+
+```text
+Planner
+   ↓
+Approved Test Plan
+   ↓
+Generator
+   ↓
+Playwright Test
+   ↓
+Test Failure
+   ↓
+Healer + Playwright MCP
+   ↓
+Observe
+   ↓
+Diagnose
+   ↓
+Classify Layer
+   ↓
+Minimal Fix
+   ↓
+tsc + rules:check + test
+   ↓
+Verified Result
+```
+
+---
+
+# 31. Current Status
+
+| Component | Status |
+|---|---|
+| Planner | Implemented |
+| Generator | Implemented |
+| Healer agent | Implemented |
+| Playwright MCP | Connected |
+| Browser-grounded diagnosis | Verified |
+| Minimal healing fix | Verified |
+| TypeScript verification | Passed |
+| Login test verification | 10/10 Passed |
+| Rule engine | Active; intentional existing findings remain |
+
+---
+
+# 32. Future Work
+
+- Improve rule-engine handling of intentional exceptions such as `BasePage`.
+- Improve semantic detection of legitimate page-state guards such as `InventoryPage.getCartCount()`.
+- Potentially add a dedicated `/heal-test` workflow.
+- Improve automated failure reproduction and verification.

@@ -250,3 +250,39 @@ test.describe('@P2 @Regression Checkout — Navigation', () => {
     );
 
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SUITE 5 — Add to Cart and Verify (P0 Smoke)
+// ─────────────────────────────────────────────────────────────────────────────
+
+test.describe('@P0 @Smoke Add to Cart Feature', () => {
+
+    test.beforeEach(async ({ loginModule }) => {
+        await loginModule.dologin(
+            standardUser.username,
+            standardUser.password
+        );
+    });
+
+    test('should add first product to cart and verify it appears in cart',
+        async ({ productModule, page }) => {
+
+            await test.step('Add first product to cart', async () => {
+                await productModule.addsinglproducttocar(firstProduct.name);
+            });
+
+            await test.step('Verify cart badge shows 1 item', async () => {
+                await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
+            });
+
+            await test.step('Open cart and verify product is displayed', async () => {
+                await productModule.verifyProductInCart(firstProduct.name);
+            });
+
+            await test.step('Verify on cart page', async () => {
+                await expect(page).toHaveURL(/cart/);
+            });
+        }
+    );
+
+});
