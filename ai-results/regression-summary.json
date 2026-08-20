@@ -1,0 +1,312 @@
+{
+  "generatedAt": "2026-08-20T05:17:02.467Z",
+  "comparisonAvailable": true,
+  "baseline": {
+    "runId": "20260819_161854",
+    "startTime": "2026-08-19T10:48:54.257Z"
+  },
+  "current": {
+    "runId": "20260820_104549",
+    "startTime": "2026-08-20T05:15:49.063Z",
+    "duration": 69028.647,
+    "counts": {
+      "total": 47,
+      "passed": 47,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0
+    }
+  },
+  "comparison": {
+    "newFailures": [],
+    "recoveredTests": [],
+    "persistentFailures": [],
+    "newTests": [
+      {
+        "file": "api.spec.ts",
+        "title": "should fetch all posts successfully",
+        "status": "expected",
+        "duration": 854
+      },
+      {
+        "file": "api.spec.ts",
+        "title": "should fetch single post by ID",
+        "status": "expected",
+        "duration": 532
+      },
+      {
+        "file": "api.spec.ts",
+        "title": "should fetch posts filtered by userId",
+        "status": "expected",
+        "duration": 547
+      },
+      {
+        "file": "api.spec.ts",
+        "title": "should create a new post",
+        "status": "expected",
+        "duration": 942
+      },
+      {
+        "file": "api.spec.ts",
+        "title": "should update an existing post",
+        "status": "expected",
+        "duration": 631
+      },
+      {
+        "file": "api.spec.ts",
+        "title": "should partially update a post title",
+        "status": "expected",
+        "duration": 668
+      },
+      {
+        "file": "api.spec.ts",
+        "title": "should delete a post",
+        "status": "expected",
+        "duration": 720
+      },
+      {
+        "file": "api.spec.ts",
+        "title": "should validate response headers",
+        "status": "expected",
+        "duration": 72
+      },
+      {
+        "file": "api.spec.ts",
+        "title": "should handle non-existent resource",
+        "status": "expected",
+        "duration": 618
+      },
+      {
+        "file": "checkout.spec.ts",
+        "title": "should complete full checkout flow successfully",
+        "status": "expected",
+        "duration": 11665
+      },
+      {
+        "file": "checkout.spec.ts",
+        "title": "should display correct product in order summary",
+        "status": "expected",
+        "duration": 11276
+      },
+      {
+        "file": "checkout.spec.ts",
+        "title": "should calculate correct order total",
+        "status": "expected",
+        "duration": 11511
+      },
+      {
+        "file": "checkout.spec.ts",
+        "title": "should show error for scenario: missing_firstname",
+        "status": "expected",
+        "duration": 10390
+      },
+      {
+        "file": "checkout.spec.ts",
+        "title": "should show error for scenario: missing_lastname",
+        "status": "expected",
+        "duration": 9570
+      },
+      {
+        "file": "checkout.spec.ts",
+        "title": "should show error for scenario: missing_zipcode",
+        "status": "expected",
+        "duration": 9230
+      },
+      {
+        "file": "checkout.spec.ts",
+        "title": "should checkout with multiple products in cart",
+        "status": "expected",
+        "duration": 9645
+      },
+      {
+        "file": "checkout.spec.ts",
+        "title": "should return to inventory when cancel is clicked on step one",
+        "status": "expected",
+        "duration": 9215
+      },
+      {
+        "file": "checkout.spec.ts",
+        "title": "should go back to products after successful order",
+        "status": "expected",
+        "duration": 7979
+      },
+      {
+        "file": "hybrid.spec.ts",
+        "title": "data created via API is accessible via UI layer",
+        "status": "expected",
+        "duration": 328
+      },
+      {
+        "file": "hybrid.spec.ts",
+        "title": "all posts for a user belong to that user",
+        "status": "expected",
+        "duration": 94
+      },
+      {
+        "file": "hybrid.spec.ts",
+        "title": "created post has all required fields",
+        "status": "expected",
+        "duration": 254
+      },
+      {
+        "file": "hybrid.spec.ts",
+        "title": "patch only modifies specified fields",
+        "status": "expected",
+        "duration": 366
+      },
+      {
+        "file": "hybrid.spec.ts",
+        "title": "GET /posts response matches Post contract",
+        "status": "expected",
+        "duration": 954
+      },
+      {
+        "file": "hybrid.spec.ts",
+        "title": "GET /posts/:id returns correct post for each ID",
+        "status": "expected",
+        "duration": 1962
+      },
+      {
+        "file": "hybrid.spec.ts",
+        "title": "response headers contain correct content type",
+        "status": "expected",
+        "duration": 43
+      },
+      {
+        "file": "hybrid.spec.ts",
+        "title": "complete post CRUD lifecycle",
+        "status": "expected",
+        "duration": 1426
+      },
+      {
+        "file": "inventory2.spec.ts",
+        "title": "should display inventory page after login",
+        "status": "expected",
+        "duration": 7123
+      },
+      {
+        "file": "inventory2.spec.ts",
+        "title": "should add single product to cart",
+        "status": "expected",
+        "duration": 7058
+      },
+      {
+        "file": "inventory2.spec.ts",
+        "title": "should add multiple products to cart",
+        "status": "expected",
+        "duration": 7098
+      },
+      {
+        "file": "inventory2.spec.ts",
+        "title": "should verify product appears in cart page",
+        "status": "expected",
+        "duration": 7111
+      },
+      {
+        "file": "inventory2.spec.ts",
+        "title": "should sort products by name A to Z",
+        "status": "expected",
+        "duration": 7104
+      },
+      {
+        "file": "inventory2.spec.ts",
+        "title": "should sort products by price low to high",
+        "status": "expected",
+        "duration": 7060
+      },
+      {
+        "file": "inventory2.spec.ts",
+        "title": "should apply sort option: \"Name (A to Z)\"",
+        "status": "expected",
+        "duration": 6924
+      },
+      {
+        "file": "inventory2.spec.ts",
+        "title": "should apply sort option: \"Name (Z to A)\"",
+        "status": "expected",
+        "duration": 6914
+      },
+      {
+        "file": "inventory2.spec.ts",
+        "title": "should apply sort option: \"Price (low to high)\"",
+        "status": "expected",
+        "duration": 6972
+      },
+      {
+        "file": "inventory2.spec.ts",
+        "title": "should apply sort option: \"Price (high to low)\"",
+        "status": "expected",
+        "duration": 6929
+      },
+      {
+        "file": "login.spec.ts",
+        "title": "should login with valid credentials",
+        "status": "expected",
+        "duration": 6850
+      },
+      {
+        "file": "login.spec.ts",
+        "title": "shold show error for locked out user ",
+        "status": "expected",
+        "duration": 6768
+      },
+      {
+        "file": "login.spec.ts",
+        "title": "should show error invalid credentials ",
+        "status": "expected",
+        "duration": 6805
+      },
+      {
+        "file": "login.spec.ts",
+        "title": "should reject login - username: standard_user, password: wrong_password",
+        "status": "expected",
+        "duration": 6739
+      },
+      {
+        "file": "login.spec.ts",
+        "title": "should reject login - username: unknown_user, password: secret_sauce",
+        "status": "expected",
+        "duration": 6672
+      },
+      {
+        "file": "login.spec.ts",
+        "title": "should reject login - username: , password: ",
+        "status": "expected",
+        "duration": 6643
+      },
+      {
+        "file": "login.spec.ts",
+        "title": "should reject login - username: nonexistent_user, password: secret_sauce",
+        "status": "expected",
+        "duration": 6650
+      },
+      {
+        "file": "login.spec.ts",
+        "title": "should reject login - username: , password: secret_sauce",
+        "status": "expected",
+        "duration": 6647
+      },
+      {
+        "file": "login.spec.ts",
+        "title": "should reject login - username: standard_user, password: ",
+        "status": "expected",
+        "duration": 6669
+      },
+      {
+        "file": "login.spec.ts",
+        "title": "should be on inventory page after authentication",
+        "status": "expected",
+        "duration": 6077
+      }
+    ],
+    "removedTests": [],
+    "durationChange": {
+      "absoluteMs": 56476,
+      "percentage": 449.93
+    }
+  },
+  "healing": {
+    "totalHealingEvents": 0,
+    "events": []
+  }
+}

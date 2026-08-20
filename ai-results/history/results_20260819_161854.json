@@ -1,0 +1,206 @@
+{
+  "config": {
+    "configFile": "D:\\Projects\\playwright\\PWFW5-Advance\\my-playwright-framework\\playwright.config.ts",
+    "rootDir": "D:/Projects/playwright/PWFW5-Advance/my-playwright-framework/src/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": "D:\\Projects\\playwright\\PWFW5-Advance\\my-playwright-framework\\src\\fixtures\\global.teardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Projects/playwright/PWFW5-Advance/my-playwright-framework/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/Projects/playwright/PWFW5-Advance/my-playwright-framework/src/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "D:\\Projects\\playwright\\PWFW5-Advance\\my-playwright-framework\\src\\utils\\CustomTTAReporter.ts",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "checkout.spec.ts",
+      "file": "checkout.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@P0 @Smoke Add to Cart Feature",
+          "file": "checkout.spec.ts",
+          "line": 258,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should add first product to cart and verify it appears in cart",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8566,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-19T10:48:57.220Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:48:57.221Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:48:57.873Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:02.999Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:03.080Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:03.307Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:03.312Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:03.315Z] [INFO] [Product module] ========== START: Add signle Product to Cart ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:03.316Z] [INFO] [Product module] Step 1: Navigate to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:03.330Z] [INFO] [Product module] Step 2: Adding the Sauce Labs Backpack to Cart\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:03.665Z] [INFO] [Product module] Step 3: verify cart count updated\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:03.704Z] [INFO] [Product module] cart count now is : 1\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:03.704Z] [INFO] [Product module] ========== END:  add single Product To Cart ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:03.738Z] [INFO] [Product module] Step 1: Navigate to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:03.981Z] [INFO] [Product module] Step 2: Verify \"Sauce Labs Backpack\" is in cart\n"
+                        },
+                        {
+                          "text": "[2026-08-19T10:49:04.016Z] [INFO] [Product module] Product \"Sauce Labs Backpack\" confirmed in cart\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-19T10:49:02.964Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Add first product to cart",
+                          "duration": 390
+                        },
+                        {
+                          "title": "Verify cart badge shows 1 item",
+                          "duration": 32
+                        },
+                        {
+                          "title": "Open cart and verify product is displayed",
+                          "duration": 278
+                        },
+                        {
+                          "title": "Verify on cart page",
+                          "duration": 21
+                        }
+                      ],
+                      "startTime": "2026-08-19T10:48:55.460Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-bbc08b5bf1d6937dfcc8",
+              "file": "checkout.spec.ts",
+              "line": 267,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-08-19T10:48:54.257Z",
+    "duration": 12552.285,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

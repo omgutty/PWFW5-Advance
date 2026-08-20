@@ -1,0 +1,3385 @@
+{
+  "config": {
+    "configFile": "D:\\Projects\\playwright\\PWFW5-Advance\\my-playwright-framework\\playwright.config.ts",
+    "rootDir": "D:/Projects/playwright/PWFW5-Advance/my-playwright-framework/src/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": "D:\\Projects\\playwright\\PWFW5-Advance\\my-playwright-framework\\src\\fixtures\\global.teardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Projects/playwright/PWFW5-Advance/my-playwright-framework/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/Projects/playwright/PWFW5-Advance/my-playwright-framework/src/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "D:\\Projects\\playwright\\PWFW5-Advance\\my-playwright-framework\\src\\utils\\CustomTTAReporter.ts",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "api.spec.ts",
+      "file": "api.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@P0 @Smoke Posts API - GET Operations",
+          "file": "api.spec.ts",
+          "line": 9,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should fetch all posts successfully",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 854,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [
+                        {
+                          "text": "(node:39992) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Call GET /posts and validate response",
+                          "duration": 809
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:51.203Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1ea1b1599cbc08f16936-1731f6e5996038eb4b0c",
+              "file": "api.spec.ts",
+              "line": 11,
+              "column": 9
+            },
+            {
+              "title": "should fetch single post by ID",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 532,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [
+                        {
+                          "text": "(node:26800) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Fetch post with ID 1",
+                          "duration": 490
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:51.265Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1ea1b1599cbc08f16936-c4df479d22be9f940bb2",
+              "file": "api.spec.ts",
+              "line": 26,
+              "column": 9
+            },
+            {
+              "title": "should fetch posts filtered by userId",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 547,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [
+                        {
+                          "text": "(node:31544) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Get all posts for user 1",
+                          "duration": 514
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:51.252Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1ea1b1599cbc08f16936-f4a1bd42c3371c91f721",
+              "file": "api.spec.ts",
+              "line": 37,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "@P1 @Regression Posts API - Write Operations",
+          "file": "api.spec.ts",
+          "line": 51,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should create a new post",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 942,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [
+                        {
+                          "text": "(node:38116) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "POST new post and validate response",
+                          "duration": 900
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:51.510Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1ea1b1599cbc08f16936-e19f6a6fda27df9e7b9c",
+              "file": "api.spec.ts",
+              "line": 53,
+              "column": 9
+            },
+            {
+              "title": "should update an existing post",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 631,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "PUT full update to post 1",
+                          "duration": 609
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:51.937Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1ea1b1599cbc08f16936-1b09a3c3aee2a84ed2c9",
+              "file": "api.spec.ts",
+              "line": 71,
+              "column": 9
+            },
+            {
+              "title": "should partially update a post title",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 668,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "PATCH only the title of post 1",
+                          "duration": 650
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:51.941Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1ea1b1599cbc08f16936-b61cf5befa0fa98231d3",
+              "file": "api.spec.ts",
+              "line": 86,
+              "column": 9
+            },
+            {
+              "title": "should delete a post",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 720,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "DELETE post 1 and verify no error",
+                          "duration": 662
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:52.186Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1ea1b1599cbc08f16936-d7f740436873c7bbfa73",
+              "file": "api.spec.ts",
+              "line": 98,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "@P1 @Regression Raw API Context Usage",
+          "file": "api.spec.ts",
+          "line": 113,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should validate response headers",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 72,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Check content-type header on posts response",
+                          "duration": 51
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:52.582Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1ea1b1599cbc08f16936-a0f1d6d58f1d34e6bc9e",
+              "file": "api.spec.ts",
+              "line": 115,
+              "column": 9
+            },
+            {
+              "title": "should handle non-existent resource",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 618,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "GET post with ID 99999 returns 404",
+                          "duration": 604
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:52.680Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1ea1b1599cbc08f16936-1667e3bada3c0ab8b692",
+              "file": "api.spec.ts",
+              "line": 127,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "checkout.spec.ts",
+      "file": "checkout.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@P0 @Smoke Checkout — Happy Path",
+          "file": "checkout.spec.ts",
+          "line": 30,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should complete full checkout flow successfully",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 11665,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:15:55.634Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:15:55.634Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:15:56.759Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:01.968Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.099Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.476Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.480Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.483Z] [INFO] [CheckoutModule] ========== START: complete checkout ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.483Z] [INFO] [CheckoutModule] Step 1: Add \"Sauce Labs Backpack\" to cart \n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.298Z] [INFO] [CheckoutModule] Step 2: Navigate to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.496Z] [INFO] [CheckoutModule] Step 3: Proceed to checkout\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.659Z] [INFO] [CheckoutModule] Step 4: Fill customer information\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:04.145Z] [INFO] [CheckoutModule] Step 5: Continue to order review\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:04.306Z] [INFO] [CheckoutModule] Step 6: Confirm order\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:04.513Z] [INFO] [CheckoutModule] ========== END: completeCheckout ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:01.900Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Complete checkout with valid data",
+                          "duration": 2031
+                        },
+                        {
+                          "title": "Verify confirmation message",
+                          "duration": 30
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:52.761Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-3b391de62196f3e898bc",
+              "file": "checkout.spec.ts",
+              "line": 39,
+              "column": 9
+            },
+            {
+              "title": "should display correct product in order summary",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 11276,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:15:55.637Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:15:55.638Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:15:56.759Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.171Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.268Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.669Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.675Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.678Z] [INFO] [CheckoutModule] ========== START: proceedToOrderReview ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.678Z] [INFO] [CheckoutModule] Step 1: Add \"Sauce Labs Backpack\" to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.344Z] [INFO] [CheckoutModule] Step 2: Navigate to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.411Z] [INFO] [CheckoutModule] Step 3: Proceed to checkout\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.574Z] [INFO] [CheckoutModule] Step 4: Fill customer information\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.857Z] [INFO] [CheckoutModule] Step 5: Continue to review\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:04.166Z] [INFO] [CheckoutModule] ========== END: proceedToOrderReview ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:02.043Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Proceed to order review",
+                          "duration": 1489
+                        },
+                        {
+                          "title": "Verify product appears in summary",
+                          "duration": 91
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:52.866Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-ff902a48ce51ca7815ce",
+              "file": "checkout.spec.ts",
+              "line": 56,
+              "column": 9
+            },
+            {
+              "title": "should calculate correct order total",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11511,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:15:55.636Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:15:55.636Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:15:56.758Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.061Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.155Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.534Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.539Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.543Z] [INFO] [CheckoutModule] ========== START: proceedToOrderReview ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.543Z] [INFO] [CheckoutModule] Step 1: Add \"Sauce Labs Backpack\" to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.007Z] [INFO] [CheckoutModule] Step 2: Navigate to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.290Z] [INFO] [CheckoutModule] Step 3: Proceed to checkout\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.577Z] [INFO] [CheckoutModule] Step 4: Fill customer information\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:04.067Z] [INFO] [CheckoutModule] Step 5: Continue to review\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:04.314Z] [INFO] [CheckoutModule] ========== END: proceedToOrderReview ==========\n"
+                        },
+                        {
+                          "text": "Item: $29.99 | Tax: $2.4 | Total: $32.39\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:01.958Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Proceed to order review",
+                          "duration": 1771
+                        },
+                        {
+                          "title": "Verify item total + tax = grand total",
+                          "duration": 52
+                        },
+                        {
+                          "title": "Log order amounts",
+                          "duration": 103
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:53.033Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-d4df66678828bb996580",
+              "file": "checkout.spec.ts",
+              "line": 72,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "@P1 @Regression Checkout — Error Validation",
+          "file": "checkout.spec.ts",
+          "line": 101,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should show error for scenario: missing_firstname",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 10390,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:15:55.636Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:15:55.636Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:15:56.762Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:01.970Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.101Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.542Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.546Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.550Z] [INFO] [CheckoutModule] ========== START: attemptCheckoutWithMissingInfo ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:02.550Z] [INFO] [CheckoutModule] Step 1: Add \"Sauce Labs Backpack\" to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.334Z] [INFO] [CheckoutModule] Step 2: Navigate to cart and checkout\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:03.887Z] [INFO] [CheckoutModule] Step 3: Click continue — expecting error\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:04.245Z] [INFO] [CheckoutModule] Checkout error: Error: First Name is required\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:04.245Z] [INFO] [CheckoutModule] ========== END: attemptCheckoutWithMissingInfo ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:01.902Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Attempt checkout with missing_firstname",
+                          "duration": 1697
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:15:53.361Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-8c2186a39e80e86a2fbd",
+              "file": "checkout.spec.ts",
+              "line": 115,
+              "column": 13
+            },
+            {
+              "title": "should show error for scenario: missing_lastname",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 9570,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:05.943Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:05.943Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:06.624Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:11.697Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:11.746Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.102Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.107Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.110Z] [INFO] [CheckoutModule] ========== START: attemptCheckoutWithMissingInfo ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.110Z] [INFO] [CheckoutModule] Step 1: Add \"Sauce Labs Backpack\" to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.444Z] [INFO] [CheckoutModule] Step 2: Navigate to cart and checkout\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:13.419Z] [INFO] [CheckoutModule] Step 3: Click continue — expecting error\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:13.625Z] [INFO] [CheckoutModule] Checkout error: Error: Last Name is required\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:13.625Z] [INFO] [CheckoutModule] ========== END: attemptCheckoutWithMissingInfo ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:11.653Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Attempt checkout with missing_lastname",
+                          "duration": 1518
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:05.418Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-80796d04c2436983eb36",
+              "file": "checkout.spec.ts",
+              "line": 115,
+              "column": 13
+            },
+            {
+              "title": "should show error for scenario: missing_zipcode",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 9230,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:05.878Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:05.878Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:06.563Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:11.611Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:11.659Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:11.952Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:11.955Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:11.958Z] [INFO] [CheckoutModule] ========== START: attemptCheckoutWithMissingInfo ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:11.958Z] [INFO] [CheckoutModule] Step 1: Add \"Sauce Labs Backpack\" to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.272Z] [INFO] [CheckoutModule] Step 2: Navigate to cart and checkout\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.541Z] [INFO] [CheckoutModule] Step 3: Click continue — expecting error\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.644Z] [INFO] [CheckoutModule] Checkout error: Error: Postal Code is required\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.645Z] [INFO] [CheckoutModule] ========== END: attemptCheckoutWithMissingInfo ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:11.588Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Attempt checkout with missing_zipcode",
+                          "duration": 689
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:05.468Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-cc440a74e581f5909061",
+              "file": "checkout.spec.ts",
+              "line": 115,
+              "column": 13
+            }
+          ]
+        },
+        {
+          "title": "@P1 @Regression Checkout — Multiple Products",
+          "file": "checkout.spec.ts",
+          "line": 144,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should checkout with multiple products in cart",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9645,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:06.051Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:06.051Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:06.772Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.010Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.141Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.787Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.790Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.794Z] [INFO] [Product module] ========== START: Add Multiple product to cart ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.794Z] [INFO] [Product module] Step 1: Navigate to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.915Z] [INFO] [Product module] Step 2: adding product to cart Sauce Labs Backpack\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:13.220Z] [INFO] [Product module] Step 3: adding product to cart Sauce Labs Bike Light\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:13.298Z] [INFO] [Product module] Added 2 products. Cart count: 2\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:13.298Z] [INFO] [Product module] ========== END: addMultipleProductsToCart ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:13.299Z] [INFO] [Product module] Step 1: Navigate to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:13.569Z] [INFO] [Product module] Step 2: Verify \"Sauce Labs Backpack\" is in cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:13.601Z] [INFO] [Product module] Product \"Sauce Labs Backpack\" confirmed in cart\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:11.852Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Add two products to cart",
+                          "duration": 505
+                        },
+                        {
+                          "title": "Navigate to cart",
+                          "duration": 302
+                        },
+                        {
+                          "title": "Proceed through checkout",
+                          "duration": 540
+                        },
+                        {
+                          "title": "Verify both products in summary",
+                          "duration": 29
+                        },
+                        {
+                          "title": "Verify total calculation",
+                          "duration": 44
+                        },
+                        {
+                          "title": "Complete the order",
+                          "duration": 183
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:05.634Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-70d747de026d1425cd5c",
+              "file": "checkout.spec.ts",
+              "line": 153,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "@P2 @Regression Checkout — Navigation",
+          "file": "checkout.spec.ts",
+          "line": 199,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should return to inventory when cancel is clicked on step one",
+              "ok": true,
+              "tags": [
+                "P2",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 9215,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:06.101Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:06.101Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:06.716Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:11.818Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.007Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.521Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:12.523Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:11.764Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Add product and go to cart",
+                          "duration": 433
+                        },
+                        {
+                          "title": "Proceed to checkout step one",
+                          "duration": 118
+                        },
+                        {
+                          "title": "Click cancel",
+                          "duration": 59
+                        },
+                        {
+                          "title": "Verify returned to cart",
+                          "duration": 14
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:05.691Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-12051ab3b0fac82c8d3a",
+              "file": "checkout.spec.ts",
+              "line": 208,
+              "column": 9
+            },
+            {
+              "title": "should go back to products after successful order",
+              "ok": true,
+              "tags": [
+                "P2",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 7979,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:15.229Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:15.229Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:15.993Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.054Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.123Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.288Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.294Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.300Z] [INFO] [CheckoutModule] ========== START: complete checkout ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.301Z] [INFO] [CheckoutModule] Step 1: Add \"Sauce Labs Backpack\" to cart \n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.576Z] [INFO] [CheckoutModule] Step 2: Navigate to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.651Z] [INFO] [CheckoutModule] Step 3: Proceed to checkout\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.745Z] [INFO] [CheckoutModule] Step 4: Fill customer information\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.871Z] [INFO] [CheckoutModule] Step 5: Continue to order review\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:22.052Z] [INFO] [CheckoutModule] Step 6: Confirm order\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:22.123Z] [INFO] [CheckoutModule] ========== END: completeCheckout ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:21.026Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Complete full checkout",
+                          "duration": 823
+                        },
+                        {
+                          "title": "Click back to products",
+                          "duration": 73
+                        },
+                        {
+                          "title": "Verify on inventory page",
+                          "duration": 22
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:14.743Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-7f6751ba30b579ca27c1",
+              "file": "checkout.spec.ts",
+              "line": 232,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "@P0 @Smoke Add to Cart Feature",
+          "file": "checkout.spec.ts",
+          "line": 258,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should add first product to cart and verify it appears in cart",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 7701,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:15.250Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:15.250Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:15.991Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.052Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.117Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.355Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.359Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.362Z] [INFO] [Product module] ========== START: Add signle Product to Cart ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.362Z] [INFO] [Product module] Step 1: Navigate to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.373Z] [INFO] [Product module] Step 2: Adding the Sauce Labs Backpack to Cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.686Z] [INFO] [Product module] Step 3: verify cart count updated\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.719Z] [INFO] [Product module] cart count now is : 1\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.719Z] [INFO] [Product module] ========== END:  add single Product To Cart ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.743Z] [INFO] [Product module] Step 1: Navigate to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.940Z] [INFO] [Product module] Step 2: Verify \"Sauce Labs Backpack\" is in cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:21.971Z] [INFO] [Product module] Product \"Sauce Labs Backpack\" confirmed in cart\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:21.024Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Add first product to cart",
+                          "duration": 358
+                        },
+                        {
+                          "title": "Verify cart badge shows 1 item",
+                          "duration": 22
+                        },
+                        {
+                          "title": "Open cart and verify product is displayed",
+                          "duration": 228
+                        },
+                        {
+                          "title": "Verify on cart page",
+                          "duration": 29
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:14.958Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-bbc08b5bf1d6937dfcc8",
+              "file": "checkout.spec.ts",
+              "line": 267,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "hybrid.spec.ts",
+      "file": "hybrid.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@P0 @Smoke Hybrid - API Setup then UI Validation",
+          "file": "hybrid.spec.ts",
+          "line": 10,
+          "column": 6,
+          "specs": [
+            {
+              "title": "data created via API is accessible via UI layer",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 328,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Created post ID: 101\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Create a post via API",
+                          "duration": 265
+                        },
+                        {
+                          "title": "Verify created data is retrievable",
+                          "duration": 44
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:15.053Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f473bc6d32c46bbb9ff6-d9749daf2c4ad7f27d58",
+              "file": "hybrid.spec.ts",
+              "line": 12,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "@P1 @Regression Hybrid - Data Integrity Validation",
+          "file": "hybrid.spec.ts",
+          "line": 54,
+          "column": 6,
+          "specs": [
+            {
+              "title": "all posts for a user belong to that user",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 94,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Fetch posts for user 1 and validate ownership",
+                          "duration": 65
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:15.350Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f473bc6d32c46bbb9ff6-9829f5452d9af35c2a08",
+              "file": "hybrid.spec.ts",
+              "line": 56,
+              "column": 9
+            },
+            {
+              "title": "created post has all required fields",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 254,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Create post and validate complete response shape",
+                          "duration": 242
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:15.422Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f473bc6d32c46bbb9ff6-7c18c1f1cc8aff2219ef",
+              "file": "hybrid.spec.ts",
+              "line": 70,
+              "column": 9
+            },
+            {
+              "title": "patch only modifies specified fields",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 366,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Get original post",
+                          "duration": 35
+                        },
+                        {
+                          "title": "Patch only the title",
+                          "duration": 258
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:15.531Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f473bc6d32c46bbb9ff6-166f2e6becb4cd5ab6f6",
+              "file": "hybrid.spec.ts",
+              "line": 86,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "@P1 @Regression API Contract Tests",
+          "file": "hybrid.spec.ts",
+          "line": 111,
+          "column": 6,
+          "specs": [
+            {
+              "title": "GET /posts response matches Post contract",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 954,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Validate Post array contract",
+                          "duration": 931
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:15.766Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f473bc6d32c46bbb9ff6-7c8096debda19b5d84cc",
+              "file": "hybrid.spec.ts",
+              "line": 113,
+              "column": 9
+            },
+            {
+              "title": "GET /posts/:id returns correct post for each ID",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1962,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Validate post with ID 1",
+                          "duration": 39
+                        },
+                        {
+                          "title": "Validate post with ID 2",
+                          "duration": 48
+                        },
+                        {
+                          "title": "Validate post with ID 3",
+                          "duration": 606
+                        },
+                        {
+                          "title": "Validate post with ID 4",
+                          "duration": 646
+                        },
+                        {
+                          "title": "Validate post with ID 5",
+                          "duration": 607
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:16.097Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f473bc6d32c46bbb9ff6-32e83da51a0670d8a564",
+              "file": "hybrid.spec.ts",
+              "line": 134,
+              "column": 9
+            },
+            {
+              "title": "response headers contain correct content type",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 43,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Validate Content-Type header",
+                          "duration": 32
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:16.747Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f473bc6d32c46bbb9ff6-b2fb89f5c92a899bc73a",
+              "file": "hybrid.spec.ts",
+              "line": 149,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "@P1 @Regression CRUD Lifecycle",
+          "file": "hybrid.spec.ts",
+          "line": 164,
+          "column": 6,
+          "specs": [
+            {
+              "title": "complete post CRUD lifecycle",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1426,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Created post with ID: 101\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Create a new post",
+                          "duration": 257
+                        },
+                        {
+                          "title": "Read the created post",
+                          "duration": 34
+                        },
+                        {
+                          "title": "Update the post with PUT",
+                          "duration": 646
+                        },
+                        {
+                          "title": "Partially update the post with PATCH",
+                          "duration": 242
+                        },
+                        {
+                          "title": "Delete the post",
+                          "duration": 234
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:16.818Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f473bc6d32c46bbb9ff6-c2c9863f1ce0437c63cd",
+              "file": "hybrid.spec.ts",
+              "line": 166,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "inventory2.spec.ts",
+      "file": "inventory2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@P0 @Smoke Inventory Feature",
+          "file": "inventory2.spec.ts",
+          "line": 20,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display inventory page after login",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7123,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:18.309Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:18.310Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:18.886Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:23.969Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.013Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.169Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.175Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:23.936Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Verify inventory page is displayed",
+                          "duration": 75
+                        },
+                        {
+                          "title": "Verify page title is correct",
+                          "duration": 16
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:18.099Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "18a323eb37b3c7bed826-b779f36ba162e5da2993",
+              "file": "inventory2.spec.ts",
+              "line": 29,
+              "column": 9
+            },
+            {
+              "title": "should add single product to cart",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 7058,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:18.470Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:18.470Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:19.021Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.081Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.142Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.368Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.371Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.374Z] [INFO] [Product module] ========== START: Add signle Product to Cart ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.374Z] [INFO] [Product module] Step 1: Navigate to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.383Z] [INFO] [Product module] Step 2: Adding the Sauce Labs Backpack to Cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.647Z] [INFO] [Product module] Step 3: verify cart count updated\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.681Z] [INFO] [Product module] cart count now is : 1\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:24.681Z] [INFO] [Product module] ========== END:  add single Product To Cart ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:24.047Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Add \"Sauce Labs Backpack\" to cart",
+                          "duration": 307
+                        },
+                        {
+                          "title": "Verify cart count is 1",
+                          "duration": 19
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:18.293Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "18a323eb37b3c7bed826-3d76146a6a51065583ed",
+              "file": "inventory2.spec.ts",
+              "line": 41,
+              "column": 9
+            },
+            {
+              "title": "should add multiple products to cart",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 7098,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:22.915Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:22.915Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:23.432Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.477Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.522Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.663Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.666Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.668Z] [INFO] [Product module] ========== START: Add Multiple product to cart ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.668Z] [INFO] [Product module] Step 1: Navigate to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.671Z] [INFO] [Product module] Step 2: adding product to cart Sauce Labs Backpack\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.952Z] [INFO] [Product module] Step 3: adding product to cart Sauce Labs Bike Light\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:29.024Z] [INFO] [Product module] Added 2 products. Cart count: 2\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:29.024Z] [INFO] [Product module] ========== END: addMultipleProductsToCart ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:28.452Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Add two products to cart",
+                          "duration": 356
+                        },
+                        {
+                          "title": "Verify cart count is 2",
+                          "duration": 19
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:22.703Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "18a323eb37b3c7bed826-ff374a993e38f43db327",
+              "file": "inventory2.spec.ts",
+              "line": 51,
+              "column": 9
+            },
+            {
+              "title": "should verify product appears in cart page",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 7111,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:22.961Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:22.961Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:23.482Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.547Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.595Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.796Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.799Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.801Z] [INFO] [Product module] ========== START: Add signle Product to Cart ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.801Z] [INFO] [Product module] Step 1: Navigate to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:28.806Z] [INFO] [Product module] Step 2: Adding the Sauce Labs Backpack to Cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:29.092Z] [INFO] [Product module] Step 3: verify cart count updated\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:29.119Z] [INFO] [Product module] cart count now is : 1\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:29.120Z] [INFO] [Product module] ========== END:  add single Product To Cart ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:29.120Z] [INFO] [Product module] Step 1: Navigate to cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:29.281Z] [INFO] [Product module] Step 2: Verify \"Sauce Labs Backpack\" is in cart\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:29.314Z] [INFO] [Product module] Product \"Sauce Labs Backpack\" confirmed in cart\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:28.512Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Add \"Sauce Labs Backpack\" to cart",
+                          "duration": 320
+                        },
+                        {
+                          "title": "Navigate to cart and verify product",
+                          "duration": 194
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:22.780Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "18a323eb37b3c7bed826-b5af7538a265f209fa5b",
+              "file": "inventory2.spec.ts",
+              "line": 63,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "@P1 @Regression Inventory Sorting",
+          "file": "inventory2.spec.ts",
+          "line": 80,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should sort products by name A to Z",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7104,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:25.440Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:25.440Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:25.974Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:31.059Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:31.101Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:31.350Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:31.353Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:31.019Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Apply A to Z sort",
+                          "duration": 32
+                        },
+                        {
+                          "title": "Verify products are sorted alphabetically",
+                          "duration": 36
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:25.262Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "18a323eb37b3c7bed826-4991555c4ba267736afd",
+              "file": "inventory2.spec.ts",
+              "line": 86,
+              "column": 9
+            },
+            {
+              "title": "should sort products by price low to high",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 7060,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:25.560Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:25.561Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:26.109Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:31.168Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:31.268Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:31.645Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:31.648Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:31.140Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Apply price low to high sort",
+                          "duration": 52
+                        },
+                        {
+                          "title": "Verify products are sorted by price ascending",
+                          "duration": 57
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:25.389Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "18a323eb37b3c7bed826-4d252f58e0228b5bb07f",
+              "file": "inventory2.spec.ts",
+              "line": 96,
+              "column": 9
+            },
+            {
+              "title": "should apply sort option: \"Name (A to Z)\"",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6924,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:30.062Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:30.062Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:30.601Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:35.654Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:35.711Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:35.927Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:35.930Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:35.628Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Select sort option: Name (A to Z)",
+                          "duration": 50
+                        },
+                        {
+                          "title": "Verify dropdown shows selected option",
+                          "duration": 23
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:29.846Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "18a323eb37b3c7bed826-07b3fef379cfd336560c",
+              "file": "inventory2.spec.ts",
+              "line": 108,
+              "column": 13
+            },
+            {
+              "title": "should apply sort option: \"Name (Z to A)\"",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 6914,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:30.105Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:30.105Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:30.653Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:35.756Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:35.810Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:35.985Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:35.987Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:35.685Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Select sort option: Name (Z to A)",
+                          "duration": 47
+                        },
+                        {
+                          "title": "Verify dropdown shows selected option",
+                          "duration": 23
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:29.931Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "18a323eb37b3c7bed826-b5eb63a9732c3eaf7809",
+              "file": "inventory2.spec.ts",
+              "line": 108,
+              "column": 13
+            },
+            {
+              "title": "should apply sort option: \"Price (low to high)\"",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6972,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:32.632Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:32.632Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:33.202Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:38.271Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:38.337Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:38.491Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:38.494Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:38.243Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Select sort option: Price (low to high)",
+                          "duration": 60
+                        },
+                        {
+                          "title": "Verify dropdown shows selected option",
+                          "duration": 40
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:32.420Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "18a323eb37b3c7bed826-e5f81f15a6876cf8fbbd",
+              "file": "inventory2.spec.ts",
+              "line": 108,
+              "column": 13
+            },
+            {
+              "title": "should apply sort option: \"Price (high to low)\"",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 6929,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:32.684Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:32.684Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:33.249Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:38.332Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:38.386Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:38.573Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:38.577Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:38.281Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Select sort option: Price (high to low)",
+                          "duration": 53
+                        },
+                        {
+                          "title": "Verify dropdown shows selected option",
+                          "duration": 19
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:32.497Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "18a323eb37b3c7bed826-14311e2788b1f816056b",
+              "file": "inventory2.spec.ts",
+              "line": 108,
+              "column": 13
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "login.spec.ts",
+      "file": "login.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "@PO @Smoke Login Feature",
+          "file": "login.spec.ts",
+          "line": 31,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should login with valid credentials",
+              "ok": true,
+              "tags": [
+                "PO",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6850,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:37.022Z] [INFO] [Login Module] ========== START: dologin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:37.022Z] [INFO] [Login Module] Step 1: Navigate to login page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:37.531Z] [INFO] [Login Module] Step 2: enter username: standard_user\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:42.599Z] [INFO] [Login Module] Step 3: Enter password\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:42.722Z] [INFO] [Login Module] Step 4: Click login button\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:42.882Z] [INFO] [Login Module] Step 5: Wait for navigation to inventory page\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:42.885Z] [INFO] [Login Module] ========== END: doLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:42.562Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Perform login with valid credentials",
+                          "duration": 5863
+                        },
+                        {
+                          "title": "verify user is on inventory page",
+                          "duration": 65
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:36.831Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "41d3fd2474a19feb00a1-8e7827f57c884fc2be5a",
+              "file": "login.spec.ts",
+              "line": 33,
+              "column": 9
+            },
+            {
+              "title": "shold show error for locked out user ",
+              "ok": true,
+              "tags": [
+                "PO",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 6768,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:37.067Z] [INFO] [Login Module] ========== START: attemptInvalidLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:43.018Z] [INFO] [Login Module] Login failed with: Epic sadface: Sorry, this user has been locked out.\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:43.018Z] [INFO] [Login Module] ========== END: attemptInvalidLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:42.682Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Attempt login with locked account ",
+                          "duration": 5952
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:36.897Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "41d3fd2474a19feb00a1-f1381486d2641cc5416a",
+              "file": "login.spec.ts",
+              "line": 56,
+              "column": 9
+            },
+            {
+              "title": "should show error invalid credentials ",
+              "ok": true,
+              "tags": [
+                "PO",
+                "Smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6805,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:39.639Z] [INFO] [Login Module] ========== START: attemptInvalidLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:45.550Z] [INFO] [Login Module] Login failed with: Epic sadface: Username and password do not match any user in this service\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:45.550Z] [INFO] [Login Module] ========== END: attemptInvalidLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:45.318Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Attempt logging in with invalid password",
+                          "duration": 5913
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:39.446Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "41d3fd2474a19feb00a1-bcbeb277d6ad35406234",
+              "file": "login.spec.ts",
+              "line": 65,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "@P1 @Regression invalid login scenarios-data driven",
+          "file": "login.spec.ts",
+          "line": 82,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should reject login - username: standard_user, password: wrong_password",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 6739,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:39.671Z] [INFO] [Login Module] ========== START: attemptInvalidLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:45.592Z] [INFO] [Login Module] Login failed with: Epic sadface: Username and password do not match any user in this service\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:45.592Z] [INFO] [Login Module] ========== END: attemptInvalidLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:45.319Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Attempt login with invalid credentials",
+                          "duration": 5924
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:39.505Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "41d3fd2474a19feb00a1-e64a23b99767dfbbafbd",
+              "file": "login.spec.ts",
+              "line": 87,
+              "column": 14
+            },
+            {
+              "title": "should reject login - username: unknown_user, password: secret_sauce",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 6672,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:43.903Z] [INFO] [Login Module] ========== START: attemptInvalidLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:49.658Z] [INFO] [Login Module] Login failed with: Epic sadface: Username and password do not match any user in this service\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:49.658Z] [INFO] [Login Module] ========== END: attemptInvalidLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:49.470Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Attempt login with invalid credentials",
+                          "duration": 5756
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:43.699Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "41d3fd2474a19feb00a1-43b12ccc26d01a732481",
+              "file": "login.spec.ts",
+              "line": 87,
+              "column": 14
+            },
+            {
+              "title": "should reject login - username: , password: ",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6643,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:43.934Z] [INFO] [Login Module] ========== START: attemptInvalidLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:49.775Z] [INFO] [Login Module] Login failed with: Epic sadface: Username is required\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:49.775Z] [INFO] [Login Module] ========== END: attemptInvalidLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:49.536Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Attempt login with invalid credentials",
+                          "duration": 5842
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:43.752Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "41d3fd2474a19feb00a1-31d021178a6a2529d6eb",
+              "file": "login.spec.ts",
+              "line": 87,
+              "column": 14
+            },
+            {
+              "title": "should reject login - username: nonexistent_user, password: secret_sauce",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 6650,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:46.511Z] [INFO] [Login Module] ========== START: attemptInvalidLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:52.249Z] [INFO] [Login Module] Login failed with: Epic sadface: Username and password do not match any user in this service\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:52.249Z] [INFO] [Login Module] ========== END: attemptInvalidLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:52.044Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Attempt login with invalid credentials",
+                          "duration": 5740
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:46.300Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "41d3fd2474a19feb00a1-02dde41919a4539d379b",
+              "file": "login.spec.ts",
+              "line": 87,
+              "column": 14
+            },
+            {
+              "title": "should reject login - username: , password: secret_sauce",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6647,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:46.549Z] [INFO] [Login Module] ========== START: attemptInvalidLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:52.349Z] [INFO] [Login Module] Login failed with: Epic sadface: Username is required\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:52.349Z] [INFO] [Login Module] ========== END: attemptInvalidLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:52.126Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Attempt login with invalid credentials",
+                          "duration": 5801
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:46.340Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "41d3fd2474a19feb00a1-7a5ed6fc938516de2149",
+              "file": "login.spec.ts",
+              "line": 87,
+              "column": 14
+            },
+            {
+              "title": "should reject login - username: standard_user, password: ",
+              "ok": true,
+              "tags": [
+                "P1",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 6669,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "[2026-08-20T05:16:50.599Z] [INFO] [Login Module] ========== START: attemptInvalidLogin ==========\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:56.367Z] [INFO] [Login Module] Login failed with: Epic sadface: Password is required\n"
+                        },
+                        {
+                          "text": "[2026-08-20T05:16:56.367Z] [INFO] [Login Module] ========== END: attemptInvalidLogin ==========\n"
+                        }
+                      ],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:56.199Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Attempt login with invalid credentials",
+                          "duration": 5770
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:50.419Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "41d3fd2474a19feb00a1-5cff1e908e5cbe301708",
+              "file": "login.spec.ts",
+              "line": 87,
+              "column": 14
+            }
+          ]
+        },
+        {
+          "title": "@P0 @Regression Post-Login State",
+          "file": "login.spec.ts",
+          "line": 103,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should be on inventory page after authentication",
+              "ok": true,
+              "tags": [
+                "P0",
+                "Regression"
+              ],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6077,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [
+                        {
+                          "text": "[2026-08-20T05:16:56.163Z] [WARN] [SelfHealingLocator] ⚠️  SELF-HEALING: \"username input\" primary selector failed.\n   Primary:  [data-test=\"username  \"]\n   Used:     #user-name (fallback 1)\n   → Update primary selector to: #user-name\n"
+                        }
+                      ],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Verify authenticated page lands on inventory",
+                          "duration": 78
+                        }
+                      ],
+                      "startTime": "2026-08-20T05:16:50.466Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "41d3fd2474a19feb00a1-fdc6c6279761ca5905e1",
+              "file": "login.spec.ts",
+              "line": 104,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-08-20T05:15:49.063Z",
+    "duration": 69028.647,
+    "expected": 47,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
